@@ -24,11 +24,11 @@ namespace Order_V2.Domain.Users
         protected User()
         { }
 
-        protected User(string discriminator, DateTime registrationDate, DateTime dateEdited, string firstName, string lastName, string login_Email, UserSecurity userSecurity)
+        protected User(string discriminator,  string firstName, string lastName, string login_Email, UserSecurity userSecurity)
         {
             Discriminator = discriminator;
-            RegistrationDate = registrationDate;
-            DateEdited = dateEdited;
+            RegistrationDate = DateTime.Now;
+            DateEdited = DateTime.Now;
             FirstName = firstName;
             LastName = lastName;
             Login_Email = login_Email;

@@ -25,11 +25,7 @@ namespace Order_V2.Domain.Users.Attributes
             //|| string.IsNullOrWhiteSpace(cityName) || string.IsNullOrWhiteSpace(country)
             //Check is Zip excist in DB
             //var result = _memberService.ZIPExistsInDB(cityDTO.ZIP);
-
-            if (zip.ToString().Length != 4)
-            {
-                return null;
-            }
+            
             return new City(zip, cityName, country);
         }
     }

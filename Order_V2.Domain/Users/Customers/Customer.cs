@@ -15,24 +15,21 @@ namespace Order_V2.Domain.Users.Customers
         private Customer() : base()
         { }
 
-        private Customer(string Discriminator,string firstName, string lastName, Address address, string login_Email, DateTime registrationDate, DateTime dateEdited, UserSecurity userSecurity) :
-            base(Discriminator, registrationDate, dateEdited, firstName, lastName, login_Email, userSecurity)
+        private Customer(string Discriminator,string firstName, string lastName, Address address, string login_Email, UserSecurity userSecurity) :
+            base(Discriminator, firstName, lastName, login_Email, userSecurity)
         {
             Address = address;
         }
 
-        public static Customer CreateNewObjectOfCustomer(string firstName, string lastName, Address address, string login_Email, DateTime registrationDate, DateTime dateEdited, UserSecurity userSecurity)
+        public static Customer CreateNewObjectOfCustomer(string firstName, string lastName, Address address, string login_Email, UserSecurity userSecurity)
         {
             try
             { MailAddress m = new MailAddress(login_Email); }
             catch (FormatException ex)
-            { throw new UserEcxeption(typeof(Customer), ex.Message); }
-
-            if (registrationDate > DateTime.Today || dateEdited > DateTime.Today)
-            { throw new UserEcxeption(typeof(Customer), "Date Cannot be in the futur"); }
+            { throw new UserEcxeption(typeof(Customer), ex.Message); }           
 
             var discriminator = typeof(Customer).ToString();
-            return new Customer(discriminator, firstName, lastName, address, login_Email, registrationDate, dateEdited, userSecurity);
+            return new Customer(discriminator, firstName, lastName, address, login_Email,  userSecurity);
         }
     }
 }

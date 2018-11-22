@@ -1,4 +1,5 @@
 ﻿using Order_V2.Domain.Users;
+using Order_V2.Domain.Users.Administrators;
 using Order_V2.Domain.Users.Authentication;
 using Order_V2.Domain.Users.Customers;
 using System;
@@ -11,9 +12,16 @@ namespace Order_V2.Services.Users.Interfaces
     public interface IUserServices
     {
         List<User> GetAllUsers();
-        //Customer RegisterNewCustomerAsync(Customer_InternalDTO internalDTO);
-        //void AddPhoneNumbersToCostumer(Customer_InternalDTO internalDTO, Customer customer);
-        //Task<Customer> GetSingleCustomerAsync(Guid CustomerID);
+        List<Administrator> GetAllAdmins();
+        List<Customer> GetAllCustomers();
+
+        Customer RegisterNewCustomer(Customer_InternalDTO internalDTO);
+        Administrator RegisterNewAdministrator(Administrator_InternalDTO internalDTO);
+
+        void AddPhoneNumbersToUserID(List<String> phoneNumbers, Guid givenUser_ID);
+
+         Task<User> GetSingleUserAsync(Guid givenUser_ID);
+
         //LoginUserInformation FindByLoginEmail(string providedEmail);
     }
 }

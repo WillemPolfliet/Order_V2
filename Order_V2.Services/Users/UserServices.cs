@@ -24,6 +24,16 @@ namespace Order_V2.Services.Users
         }
 
 
+        public async Task<User> GetSingleUserAsync(Guid givenUser_ID)
+        {
+            var User = await _OrderDBContext.Set<User>().SingleOrDefaultAsync(x => x.User_ID == givenUser_ID);
+
+            if (User == null)
+            { return null; }
+
+            return User;
+        }
+
         public List<User> GetAllUsers()
         {
             var Users = new List<User>();
@@ -41,7 +51,7 @@ namespace Order_V2.Services.Users
                     .ThenInclude(c => c.City)
                 .Include(p => p.ListOfPhones)
                 .Include(us => us.UserSecurity)
-                .ToList();           
+                .ToList();
 
 
             Users.AddRange(CustomerDbSet);
@@ -49,47 +59,106 @@ namespace Order_V2.Services.Users
 
             return Users;
         }
+        public List<Administrator> GetAllAdmins()
+        {
+            return _OrderDBContext.Set<Administrator>()
+                .Include(workplace => workplace.Workplace)
+                .ThenInclude(m => m.Address)
+                    .ThenInclude(c => c.City)
+                .Include(p => p.ListOfPhones)
+                .Include(us => us.UserSecurity)
+                .ToList();
+        }
+        public List<Customer> GetAllCustomers()
+        {
+            return _OrderDBContext.Set<Customer>()
+                 .Include(m => m.Address)
+                     .ThenInclude(c => c.City)
+                 .Include(p => p.ListOfPhones)
+                 .Include(us => us.UserSecurity)
+                 .ToList();
+        }
 
-        //public Customer RegisterNewCustomerAsync(Customer_InternalDTO internalDTO)
-        //{
 
-        //    if (string.IsNullOrWhiteSpace(internalDTO.FirstName) || string.IsNullOrWhiteSpace(internalDTO.LastName) || internalDTO.Address == null || string.IsNullOrWhiteSpace(internalDTO.Login_Email))
-        //    { throw new UserEcxeption(Type.GetType("Order_V2.Domain.Users.Customers"), "All fields are required"); }
+        public Customer RegisterNewCustomer(Customer_InternalDTO internalDTO)
+        {
+            if (string.IsNullOrWhiteSpace(internalDTO.FirstName) ||
+                string.IsNullOrWhiteSpace(internalDTO.LastName) ||
+                string.IsNullOrWhiteSpace(internalDTO.Login_Email) ||
+                string.IsNullOrWhiteSpace(internalDTO.StreetName) ||
+                string.IsNullOrWhiteSpace(internalDTO.StreetNumber) ||
+                string.IsNullOrWhiteSpace(internalDTO.CountryName) ||
+                string.IsNullOrWhiteSpace(internalDTO.CityName) ||
+                internalDTO.City_ZIP <= 0 ||
+                internalDTO.ListOfPhones.Count == 0)
+            { throw new UserEcxeption(typeof(Customer), "All fields are required"); }
 
-        //    Customer newMember = Customer.CreateNewObjectOfCustomer(internalDTO.FirstName, internalDTO.LastName, internalDTO.Address, internalDTO.Login_Email);
+            if (CheckEmailDuplicate(internalDTO.Login_Email))
+            { throw new UserEcxeption(typeof(Customer), "The email already excists"); }
 
-        //    _OrderDBContext.Users.Add(newMember);
-        //    _OrderDBContext.SaveChanges();
+            City cityFromDB = CheckCityInDB(internalDTO.City_ZIP, internalDTO.CityName, internalDTO.CountryName);
+            Address newAddress = Address.CreateNewObjectOfAddress(internalDTO.StreetName, internalDTO.StreetNumber, cityFromDB);
+            Customer newMember = Customer.CreateNewObjectOfCustomer(internalDTO.FirstName, internalDTO.LastName, newAddress, internalDTO.Login_Email, internalDTO.UserSecurity);
 
-        //    return newMember;
-        //}
+            _OrderDBContext.Customers.Add(newMember);
+            _OrderDBContext.SaveChanges();
 
-        //public void AddPhoneNumbersToCostumer(Customer_InternalDTO internalDTO, Customer customer)
-        //{
-        //    List<PhoneNumber> phones = new List<PhoneNumber>();
-        //    foreach (var item in internalDTO.ListOfPhones)
-        //    {
-        //        phones.Add(PhoneNumber.CreateNewObjectOfPhoneNumber(customer.User_ID, item.PhoneNumberValue));
-        //    }
-        //    _OrderDBContext.AddRangeAsync(phones);
-        //    _OrderDBContext.SaveChanges();
-        //}
+            return newMember;
+        }
+        public Administrator RegisterNewAdministrator(Administrator_InternalDTO internalDTO)
+        {
+            if (string.IsNullOrWhiteSpace(internalDTO.FirstName) ||
+              string.IsNullOrWhiteSpace(internalDTO.LastName) ||
+              string.IsNullOrWhiteSpace(internalDTO.Login_Email) ||
+              string.IsNullOrWhiteSpace(internalDTO.Workplace_StreetName) ||
+              string.IsNullOrWhiteSpace(internalDTO.Workplace_StreetNumber) ||
+              string.IsNullOrWhiteSpace(internalDTO.Workplace_OfficeName) ||
+                string.IsNullOrWhiteSpace(internalDTO.Workplace_CountryName) ||
+                string.IsNullOrWhiteSpace(internalDTO.Workplace_CityName) ||
+              internalDTO.Workplace_City_ZIP <= 0 ||
+              internalDTO.ListOfPhones.Count == 0)
+            { throw new UserEcxeption(typeof(Customer), "All fields are required"); }
 
-        //public async Task<Customer> GetSingleCustomerAsync(Guid CustomerID)
-        //{
-        //    var customer = await _OrderDBContext.Users
-        //        .Include(m => m.Address)
-        //            .ThenInclude(c => c.City)
-        //        .Include(p => p.ListOfPhones)
-        //        .SingleOrDefaultAsync(x => x.CustomerID == CustomerID);
+            if (CheckEmailDuplicate(internalDTO.Login_Email))
+            { throw new UserEcxeption(typeof(Customer), "The email already excists"); }
 
-        //    if (customer == null)
-        //    {
-        //        return null;
-        //    }
+            City cityFromDB = CheckCityInDB(internalDTO.Workplace_City_ZIP, internalDTO.Workplace_CityName, internalDTO.Workplace_CountryName);
+            Address newAddress = Address.CreateNewObjectOfAddress(internalDTO.Workplace_StreetName, internalDTO.Workplace_StreetNumber, cityFromDB);
+            Workplace workplace = Workplace.CreateNewObjectOfWorkplace(internalDTO.Workplace_OfficeName, newAddress);
 
-        //    return customer;
-        //}
+            Administrator newMember = Administrator.CreateNewObjectOfAdministrator(internalDTO.FirstName, internalDTO.LastName, workplace, internalDTO.Login_Email, internalDTO.UserSecurity);
+
+            _OrderDBContext.Administrators.Add(newMember);
+            _OrderDBContext.SaveChanges();
+
+            return newMember;
+        }
+
+
+        public void AddPhoneNumbersToUserID(List<String> phoneNumbers, Guid givenUser_ID)
+        {
+            List<PhoneNumber> PphoneNumberListOfUser = new List<PhoneNumber>();
+            foreach (var item in phoneNumbers)
+            { PphoneNumberListOfUser.Add(PhoneNumber.CreateNewObjectOfPhoneNumber(givenUser_ID, item)); }
+
+            _OrderDBContext.AddRangeAsync(PphoneNumberListOfUser);
+            _OrderDBContext.SaveChanges();
+        }
+        
+
+        private City CheckCityInDB(int city_ZIP, string cityName, string countryName)
+        {
+            var cityFromDB = _OrderDBContext.Cities.SingleOrDefault(city => city.City_ZIP == city_ZIP);
+            if (cityFromDB == null)
+            { cityFromDB = City.CreateNewObjectOfCity(city_ZIP, cityName, countryName); }
+            return cityFromDB;
+        }
+        private bool CheckEmailDuplicate(string givenEmail)
+        {
+            return _OrderDBContext.Users.Any(user => user.Login_Email == givenEmail);
+        }
+
+
 
         //public LoginUserInformation FindByLoginEmail(string providedEmail)
         //{
@@ -101,7 +170,7 @@ namespace Order_V2.Services.Users
         //    var pass = LoginID.Login_HashPass;
         //    var salt = LoginID.Salt;
 
-        //    LoginUserInformation Login = new LoginUserInformation(mail, new UserSecurity(pass,salt) );
+        //    LoginUserInformation Login = new LoginUserInformation(mail, new UserSecurity(pass, salt));
         //    return Login;
         //}
 
