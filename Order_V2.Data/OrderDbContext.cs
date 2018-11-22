@@ -38,7 +38,7 @@ namespace Order_V2.Data
             ForeignKeysFrom_Cities_Address(modelBuilder);
             ForeignKeysFrom_Customers_PhoneNumber(modelBuilder);
 
-            
+
             base.OnModelCreating(modelBuilder);
 
         }
@@ -48,6 +48,7 @@ namespace Order_V2.Data
             modelBuilder.Entity<Customer>()
                             .ToTable("Customers", "Users")
                             .HasKey(U => U.CustomerID);
+
             modelBuilder.Entity<Customer>()
                 .Property(d => d.CustomerID).HasColumnName("Customer_ID");
             modelBuilder.Entity<Customer>()
@@ -96,7 +97,7 @@ namespace Order_V2.Data
             modelBuilder.Entity<PhoneNumber>()
                 .Property(lp => lp.CustomerID).HasColumnName("Customer_ID");
             modelBuilder.Entity<PhoneNumber>()
-                .Property(lp => lp.PhoneNumberValue).HasColumnName("PhoneNumber");          
+                .Property(lp => lp.PhoneNumberValue).HasColumnName("PhoneNumber");
         }
         private static void ForeignKeysFrom_Cities_Address(ModelBuilder modelBuilder)
         {
@@ -113,6 +114,6 @@ namespace Order_V2.Data
               .WithMany(m => m.ListOfPhones)
               .HasForeignKey(ph => ph.CustomerID)
               .IsRequired();
-        }        
+        }
     }
 }

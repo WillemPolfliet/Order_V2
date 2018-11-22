@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="2.1.1" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Order_V2.Data\Order_V2.Data.csproj" />
     <ProjectReference Include="..\Order_V2.Domain\Order_V2.Domain.csproj" />
   </ItemGroup>

@@ -1,4 +1,5 @@
 ﻿using Order_V2.Domain.Users.Attributes;
+using Order_V2.Domain.Users.Authentication;
 using Order_V2.Domain.Users.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace Order_V2.Domain.Users.Customers
         public List<PhoneNumber> ListOfPhones { get; set; } = new List<PhoneNumber>();
         public string Login_HashPass { get; private set; }
 
+        public UserSecurity UserSecurity { get; }
 
         private Customer()
         { }

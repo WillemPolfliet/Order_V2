@@ -11,6 +11,7 @@ using Order_V2.API.Controllers.Users.Mapper.Interfaces;
 using Order_V2.Data;
 using Order_V2.Services.Users;
 using Order_V2.Services.Users.Interfaces;
+using Order_V2.Services.Users.Security;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.Collections.Generic;
@@ -37,12 +38,6 @@ namespace Order_V2.API
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new Info { Title = "Order_V2.Api", Version = "v1" }); });
 
-            services.AddSingleton<IUserServices, UserServices>();
-            services.AddSingleton<IPhoneNumberMapper, PhoneNumberMapper>();
-            services.AddSingleton<IAddressMapper, AddressMapper>();
-            services.AddSingleton<ICityMapper, CityMapper>();
-            services.AddSingleton<ICustomerMapper, CustomerMapper>();
-
             services.AddSingleton<ILoggerFactory>(efLoggerFactory);
             services.AddTransient<OrderDbContext>((sp) =>
             {
@@ -51,6 +46,17 @@ namespace Order_V2.API
 
                 return new OrderDbContext(connectionString, loggerFactory);
             });
+
+
+            services.AddSingleton<IUserServices, UserServices>();
+            services.AddSingleton<IPhoneNumberMapper, PhoneNumberMapper>();
+            services.AddSingleton<IAddressMapper, AddressMapper>();
+            services.AddSingleton<ICityMapper, CityMapper>();
+            services.AddSingleton<ICustomerMapper, CustomerMapper>();
+
+            services.AddSingleton<Hasher>().AddSingleton<Salter>().AddSingleton<UserAuthenticationServices>();
+            //services.AddCors();
+            //var key = Encoding.ASCII.GetBytes(UserAuthenticationService.SECRET_KEY);
 
         }
 

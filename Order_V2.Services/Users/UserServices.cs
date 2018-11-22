@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Order_V2.Data;
 using Order_V2.Domain.Users.Attributes;
+using Order_V2.Domain.Users.Authentication;
 using Order_V2.Domain.Users.Customers;
 using Order_V2.Domain.Users.Exceptions;
 using Order_V2.Services.Users.Interfaces;
@@ -15,7 +16,6 @@ namespace Order_V2.Services.Users
     public class UserServices : IUserServices
     {
         private readonly OrderDbContext _OrderDBContext;
-
         public UserServices(OrderDbContext orderDBContext)
         {
             _OrderDBContext = orderDBContext;
@@ -77,6 +77,18 @@ namespace Order_V2.Services.Users
             }
 
             return customer;
+        }
+
+        public async Task<LoginUserInformation> FindByLoginEmailAsync(string providedEmail)
+        {
+            LoginUserInformation Login = await _OrderDBContext.Users.SingleOrDefaultAsync(x => x.Login_Email == providedEmail);
+
+            if (customer == null)
+            {
+                return null;
+            }
+
+            return Login;
         }
 
 

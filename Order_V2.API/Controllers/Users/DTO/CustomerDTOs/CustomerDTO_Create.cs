@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Order_V2.API.Controllers.Users.AttributeDTOs.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Order_V2.API.Controllers.Users.Mapper.DTO
+namespace Order_V2.API.Controllers.Users.CustomerDTOs.DTO
 {
     public class CustomerDTO_Create
     {

@@ -1,4 +1,4 @@
-﻿using Order_V2.API.Controllers.Users.Mapper.DTO;
+﻿using Order_V2.API.Controllers.Users.AttributeDTOs.DTO;
 using Order_V2.Domain.Users.Attributes;
 using System;
 using System.Collections.Generic;

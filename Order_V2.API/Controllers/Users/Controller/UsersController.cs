@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Order_V2.API.Controllers.Users.Mapper.DTO;
+using Order_V2.API.Controllers.Users.CustomerDTOs.DTO;
 using Order_V2.API.Controllers.Users.Mapper.Interfaces;
 using Order_V2.Services.Users.Interfaces;
 using System;
@@ -69,7 +69,8 @@ namespace Order_V2.API.Controllers.Users.Controller
 
                 _userServices.AddPhoneNumbersToCostumer(internalDTO, tempCostumer);
             }
-            catch (DbUpdateException ex)
+            //catch (UserException ex)
+            catch (Exception ex)
             {
 
                 return BadRequest(ex.Message);

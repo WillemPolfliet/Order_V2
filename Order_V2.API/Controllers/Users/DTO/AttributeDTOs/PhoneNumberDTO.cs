@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Order_V2.API.Controllers.Users.Mapper.DTO
+namespace Order_V2.API.Controllers.Users.AttributeDTOs.DTO
 {
     public class PhoneNumberDTO
     {
