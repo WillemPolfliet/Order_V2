@@ -1,4 +1,5 @@
 ﻿using Order_V2.API.Controllers.Users.AttributeDTOs.DTO;
+using Order_V2.API.Controllers.Users.DTO.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Order_V2.API.Controllers.Users.CustomerDTOs.DTO
 {
-    public class CustomerDTO_Return
+    public class CustomerDTO_Return : UserDTO_Return
     {
         public Guid CustomerID { get; set; }
         public string FirstName { get; set; }
@@ -15,6 +16,6 @@ namespace Order_V2.API.Controllers.Users.CustomerDTOs.DTO
         public DateTime RegistrationDate { get; set; }
         public DateTime DateEdited { get; set; }
         public string Login_Email { get; set; }
-        public List<PhoneNumberDTO> ListOfPhones { get; set; } = new List<PhoneNumberDTO>();
+        public List<string> ListOfPhones { get; set; } = new List<string>();
     }
 }
