@@ -4,4 +4,13 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Configuration.EntityFramework" Version="1.0.1.123" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.1.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Order_V2.Domain\Order_V2.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

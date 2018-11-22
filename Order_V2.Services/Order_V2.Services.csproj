@@ -4,4 +4,9 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Order_V2.Data\Order_V2.Data.csproj" />
+    <ProjectReference Include="..\Order_V2.Domain\Order_V2.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
