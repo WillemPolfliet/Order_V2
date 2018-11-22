@@ -9,20 +9,24 @@ namespace Order_V2.Domain.Users
 {
     public abstract class User
     {
-        public Guid CustomerID { get; private set; }
+        public Guid User_ID { get; private set; }
+        public string Discriminator { get; private set; }
         public DateTime RegistrationDate { get; private set; }
         public DateTime DateEdited { get; private set; }
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
 
         public string Login_Email { get; private set; }
-        public UserSecurity UserSecurity { get; }
+        public UserSecurity UserSecurity { get; private set; }
 
-        public List<PhoneNumber> ListOfPhones { get; set; } = new List<PhoneNumber>();
+        public List<PhoneNumber> ListOfPhones { get; private set; } = new List<PhoneNumber>();
 
+        protected User()
+        { }
 
-        protected User(DateTime registrationDate, DateTime dateEdited, string firstName, string lastName, string login_Email, UserSecurity userSecurity)
+        protected User(string discriminator, DateTime registrationDate, DateTime dateEdited, string firstName, string lastName, string login_Email, UserSecurity userSecurity)
         {
+            Discriminator = discriminator;
             RegistrationDate = registrationDate;
             DateEdited = dateEdited;
             FirstName = firstName;

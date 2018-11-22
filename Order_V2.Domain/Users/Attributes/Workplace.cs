@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Order_V2.Domain.Users.Administrators;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,9 +7,10 @@ namespace Order_V2.Domain.Users.Attributes
 {
     public class Workplace
     {
-        public Guid WorkplaceID { get; private set; }
+        public Guid Workplace_ID { get; private set; }
         public string OfficeName { get; private set; }
         public Address Address { get; private set; }
+        public Administrator Administrator { get; private set; }
         
         private Workplace()
         { }

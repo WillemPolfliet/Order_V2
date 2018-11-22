@@ -9,7 +9,7 @@ namespace Order_V2.API.Controllers.Users.Mapper.Interfaces
 {
     public interface IPhoneNumberMapper
     {
-        List<PhoneNumber_InternalDTO> DTOListToPhoneNumpberInternalDTO(List<PhoneNumberDTO> phoneNumberDTOList);
-        List<PhoneNumberDTO> PhoneNumpberListToDTO(List<PhoneNumber> phoneNumberList);
+      //  List<PhoneNumber_InternalDTO> DTOListToPhoneNumpberInternalDTO(List<PhoneNumberDTO> phoneNumberDTOList);
+       // List<PhoneNumberDTO> PhoneNumpberListToDTO(List<PhoneNumber> phoneNumberList);
     }
 }

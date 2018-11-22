@@ -8,7 +8,7 @@ namespace Order_V2.Domain.Users.Attributes
     {
         public string StreetName { get; private set; }
         public string StreetNumber { get; private set; }
-        public int ZIP { get; private set; }
+        public int City_ZIP { get; private set; }
         public City City { get; private set; }
 
         private Address()
@@ -18,7 +18,7 @@ namespace Order_V2.Domain.Users.Attributes
         {
             StreetName = streetName;
             StreetNumber = streetNumber;
-            ZIP = givenCity.ZIP;
+            City_ZIP = givenCity.ZIP;
             City = givenCity;
         }
 

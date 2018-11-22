@@ -7,8 +7,11 @@ namespace Order_V2.Domain.Users.Authentication
     public class UserSecurity
     {
 
-        public string Login_HashPass { get;  }
-        public string Login_Salt { get; }
+        public string Login_HashPass { get; private set; }
+        public string Login_Salt { get; private set; }
+
+        private UserSecurity()
+        { }
 
         public UserSecurity(string passwordHashedAndSalted, string appliedSalt)
         {

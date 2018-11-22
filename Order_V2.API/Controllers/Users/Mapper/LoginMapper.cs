@@ -19,18 +19,18 @@ namespace Order_V2.API.Controllers.Users.Mapper
         }
         
 
-        public LoginUserInformation DTOToLoginUserInfo(LoginRequestDTO loginRequestDTO)
-        {
-            return new LoginUserInformation(loginRequestDTO.Email, _userAuthService.CreateUserSecurity(loginRequestDTO.Password));
-        }
+        //public LoginUserInformation DTOToLoginUserInfo(LoginRequestDTO loginRequestDTO)
+        //{
+        //    return new LoginUserInformation(loginRequestDTO.Email, _userAuthService.CreateUserSecurity(loginRequestDTO.Password));
+        //}
 
-        public LoginRequestDTO LoginInfoToDTO(LoginUserInformation loginRequestDTO)
-        {
-            return new LoginRequestDTO
-            {
-                Email = loginRequestDTO.Email
-            };
-        }
+        //public LoginRequestDTO LoginInfoToDTO(LoginUserInformation loginRequestDTO)
+        //{
+        //    return new LoginRequestDTO
+        //    {
+        //        Email = loginRequestDTO.Email
+        //    };
+        //}
 
 
 

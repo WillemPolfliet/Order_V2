@@ -23,10 +23,10 @@ namespace Order_V2.Services.Users.Security
                 numBytesRequested: 256 / 8);
         }
 
-        public bool DoesProvidedPasswordMatchPersistedPassword(string providedPassword, UserSecurity persistedUserSecurity)
-        {
-            return CreateHashOfPasswordAndSalt(providedPassword, persistedUserSecurity.AppliedSalt)
-                .Equals(persistedUserSecurity.PasswordHashedAndSalted);
-        }
+        //public bool DoesProvidedPasswordMatchPersistedPassword(string providedPassword, UserSecurity persistedUserSecurity)
+        //{
+        //    return CreateHashOfPasswordAndSalt(providedPassword, persistedUserSecurity.AppliedSalt)
+        //        .Equals(persistedUserSecurity.PasswordHashedAndSalted);
+        //}
     }
 }

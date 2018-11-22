@@ -7,17 +7,17 @@ namespace Order_V2.Domain.Users.Attributes
 {
     public class PhoneNumber
     {
-        public Guid CustomerID { get; private set; }
+        public Guid User_ID { get; private set; }
         public string PhoneNumberValue { get; private set; }
-        public Customer Customer { get; private set; }
+        public User User { get; private set; }
 
 
         private PhoneNumber()
         { }
 
-        private PhoneNumber(Guid customerID, string phoneNumberValue)
+        private PhoneNumber(Guid user_ID, string phoneNumberValue)
         {
-            CustomerID = customerID;
+            User_ID = user_ID;
             PhoneNumberValue = phoneNumberValue;
         }
 

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Order_V2.API.Controllers.Users.CustomerDTOs.DTO;
 using Order_V2.API.Controllers.Users.Mapper.Interfaces;
+using Order_V2.Domain.Users;
 using Order_V2.Services.Users.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -26,13 +27,13 @@ namespace Order_V2.API.Controllers.Users.Controller
 
 
         [HttpGet]
-        public ActionResult<List<CustomerDTO_Return>> GetAllCustomers()
+        public ActionResult<List<User>> GetAllCustomers()
         {
             try
             {
-                var customerList = _userServices.GetAllCustomers();
-                var toReturn = _customerMapper.CustomerListToDTOReturnList(customerList);
-                return Ok(toReturn);
+                var customerList = _userServices.GetAllUsers();
+                //var toReturn = _customerMapper.CustomerListToDTOReturnList(customerList);
+                return Ok(customerList);
             }
             //catch (UserException ex)
             catch (Exception ex)
@@ -41,42 +42,42 @@ namespace Order_V2.API.Controllers.Users.Controller
             }
         }
 
-        [HttpGet]
-        [Route("{CustomerID}")]
-        public async Task<ActionResult<CustomerDTO_Return>> GetSingleCustomerAsync([FromRoute] Guid CustomerID)
-        {
-            try
-            {
-                var customerList = await _userServices.GetSingleCustomerAsync(CustomerID);
-                var toReturn = _customerMapper.CustomerToDTOReturn(customerList);
-                return Ok(toReturn);
-            }
-            //catch (UserException ex)
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        //[HttpGet]
+        //[Route("{CustomerID}")]
+        //public async Task<ActionResult<CustomerDTO_Return>> GetSingleCustomerAsync([FromRoute] Guid CustomerID)
+        //{
+        //    try
+        //    {
+        //        var customerList = await _userServices.GetSingleCustomerAsync(CustomerID);
+        //        var toReturn = _customerMapper.CustomerToDTOReturn(customerList);
+        //        return Ok(toReturn);
+        //    }
+        //    //catch (UserException ex)
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
 
-        [HttpPost]
-        public ActionResult CreateMember(CustomerDTO_Create CustomerDTO)
-        {
-            try
-            {
-                var internalDTO = _customerMapper.DTOToCustomer_InternalDTO(CustomerDTO);
+        //[HttpPost]
+        //public ActionResult CreateMember(CustomerDTO_Create CustomerDTO)
+        //{
+        //    try
+        //    {
+        //        var internalDTO = _customerMapper.DTOToCustomer_InternalDTO(CustomerDTO);
 
-                var tempCostumer = _userServices.RegisterNewCustomerAsync(internalDTO);
+        //        var tempCostumer = _userServices.RegisterNewCustomerAsync(internalDTO);
 
-                _userServices.AddPhoneNumbersToCostumer(internalDTO, tempCostumer);
-            }
-            //catch (UserException ex)
-            catch (Exception ex)
-            {
+        //        _userServices.AddPhoneNumbersToCostumer(internalDTO, tempCostumer);
+        //    }
+        //    //catch (UserException ex)
+        //    catch (Exception ex)
+        //    {
 
-                return BadRequest(ex.Message);
-            }
+        //        return BadRequest(ex.Message);
+        //    }
 
-            return Ok();
-        }
+        //    return Ok();
+        //}
     }
 }

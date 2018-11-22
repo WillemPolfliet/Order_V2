@@ -32,6 +32,7 @@ create table Users.PhoneNumbers
 create table Users.Users
 (
 	User_ID uniqueidentifier not null default newid(),
+	Discriminator varchar(100) not null,
 	RegistrationDate Date not null,
 	DateEdited Date not null,
 	FirstName nvarchar(100) not null,
@@ -40,9 +41,16 @@ create table Users.Users
 	Login_HashPass nvarchar(100)  not null,
 	Login_Salt nvarchar(100)  not null,
 
+	Customer_StreetName nvarchar(100) null,
+	Customer_StreetNumber nvarchar(10) null,
+	Customer_City_ZIP int null	,
+
+	Admin_Workplace_ID  uniqueidentifier null
+
 	constraint User_PK primary key (User_ID)
 )
 
+/*
 create table Users.Customers
 (	
 	User_ID uniqueidentifier not null,
@@ -68,14 +76,14 @@ alter table Users.Administrators
 alter table Users.Customers	
 	add constraint Customers_Users_FK
 	foreign key (User_ID) references Users.Users(User_ID)
-
-alter table Users.Customers	
+	*/
+alter table Users.Users	
 	add constraint Customers_Cities_FK
-	foreign key (City_ZIP) references Users.Cities(City_ZIP)
+	foreign key (Customer_City_ZIP) references Users.Cities(City_ZIP)
 
-alter table Users.Administrators	
+alter table Users.Users	
 	add constraint Administrators_Workplaces_FK
-	foreign key (Workplace_ID) references Users.Workplaces(Workplace_ID)
+	foreign key (Admin_Workplace_ID) references Users.Workplaces(Workplace_ID)
 
 alter table Users.Workplaces	
 	add constraint Workplaces_Cities_FK

@@ -41,43 +41,63 @@ insert into Users.Workplaces
 
 insert into Users.Users 
 	(		
+		Discriminator,
 		RegistrationDate ,
 		DateEdited,
 		FirstName,
 		LastName,
 		Login_Email,
 		Login_HashPass,
-		Login_Salt
+		Login_Salt,
+		Admin_Workplace_ID,
+		Customer_City_ZIP,
+		Customer_StreetName,
+		Customer_StreetNumber
 	)
 	values
 	(
+		'Administrator',
 		CONVERT(date,'1-11-2018', 103),
 		CONVERT(date,'1-11-2018', 103),
 		'Albert',
 		'Fransen', 
 		'admin@order.com',
 		'InbBsK3LhfjJi9nmZG2jd1IYaNKuvwLMxIjPeOg3yUg=',
-		'3gXWznyrL1HCdobzyrdzSQ=='	
+		'3gXWznyrL1HCdobzyrdzSQ==',
+		(select Workplace_ID from Users.Workplaces where OfficeName like 'SpaceTime'),
+		null,
+		null,
+		null	
 	),
 	(
+		'Customer',
 		CONVERT(date,'2-11-2018', 103),
 		CONVERT(date,'2-11-2018', 103),
 		'Filip',
 		'Derese', 
 		'costumer@order.com',
 		'Gf8AKTqvuNnIZm1gJum55+VhJbinrCajSULPmIaLvVU=',
-		'EiSVNZrgq25D9CuVLq8Qvw=='			
+		'EiSVNZrgq25D9CuVLq8Qvw==',
+		null,
+		3340,
+		'NieuwStraat',
+		'15B'		
 	),
 	(
+		'Customer',
 		CONVERT(date,'1-11-2018', 103),
 		CONVERT(date,'1-11-2018', 103),
 		'Steffi',
 		'Struyfs', 
 		'jfs84CROd9SFpP9qhJQcBg==',
 		'pRX+/tiuJAsj4WYj4kj6V2ZuJDZ8u2BmFbfAtGeX/yA=',
-		'jfs84CROd9SFpP9qhJQcBg=='	
+		'jfs84CROd9SFpP9qhJQcBg==',
+		null,
+		3340,			
+		'OudeBolWeg',
+		'356'
 	)
-	
+	/*
 insert into Users.Administrators 
 	(				
 		User_ID,
@@ -108,7 +128,7 @@ insert into Users.Customers
 		3340,			
 		'OudeBolWeg',
 		'356'
-	)
+	)*/
 		
 insert into Users.PhoneNumbers
 	(
