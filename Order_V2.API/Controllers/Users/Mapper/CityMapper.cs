@@ -12,7 +12,7 @@ namespace Order_V2.API.Controllers.Users.Mapper
     {
         public CityDTO CityToDTO(City city)
         {
-            return new CityDTO() { CityName = city.CityName, CountryName = city.CountryName, ZIP = city.ZIP };
+            return new CityDTO() { CityName = city.CityName, CountryName = city.CountryName, ZIP = city.City_ZIP };
         }
 
         public City DTOToCity(CityDTO cityDTO)

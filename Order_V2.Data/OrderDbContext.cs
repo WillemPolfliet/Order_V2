@@ -126,10 +126,10 @@ namespace Order_V2.Data
         {
             modelBuilder.Entity<City>()
                 .ToTable("Cities", "Users")
-                .HasKey(c => c.ZIP);
+                .HasKey(c => c.City_ZIP);
 
             modelBuilder.Entity<City>()
-                .Property(c => c.ZIP).HasColumnName("City_ZIP");
+                .Property(c => c.City_ZIP).HasColumnName("City_ZIP");
             modelBuilder.Entity<City>()
                 .Property(c => c.CityName).HasColumnName("CityName");
             modelBuilder.Entity<City>()
@@ -169,10 +169,10 @@ namespace Order_V2.Data
         private static void ForeignKeysFrom_Users_PhoneNumber(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<PhoneNumber>()
-          .HasOne(ph => ph.User)
-          .WithMany(m => m.ListOfPhones)
-          .HasForeignKey(ph => ph.User_ID)
-          .IsRequired();
+              .HasOne(ph => ph.User)
+              .WithMany(m => m.ListOfPhones)
+              .HasForeignKey(ph => ph.User_ID)
+              .IsRequired();
         }
     }
 }

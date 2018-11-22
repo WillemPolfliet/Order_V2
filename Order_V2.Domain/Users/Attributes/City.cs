@@ -6,7 +6,7 @@ namespace Order_V2.Domain.Users.Attributes
 {
     public class City
     {
-        public int ZIP { get; private set; }
+        public int City_ZIP { get; private set; }
         public string CityName { get; private set; }
         public string CountryName { get; private set; }
 
@@ -15,7 +15,7 @@ namespace Order_V2.Domain.Users.Attributes
 
         private City(int zip, string cityName, string countryName)
         {
-            ZIP = zip;
+            City_ZIP = zip;
             CityName = cityName;
             CountryName = countryName;
         }

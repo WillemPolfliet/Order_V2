@@ -18,7 +18,7 @@ namespace Order_V2.Domain.Users.Attributes
         {
             StreetName = streetName;
             StreetNumber = streetNumber;
-            City_ZIP = givenCity.ZIP;
+            City_ZIP = givenCity.City_ZIP;
             City = givenCity;
         }
 

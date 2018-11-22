@@ -28,16 +28,20 @@ namespace Order_V2.Services.Users
         {
             var Users = new List<User>();
 
-            var AdminDbSet = _OrderDBContext.Set<Administrator>().ToList();
+            var AdminDbSet = _OrderDBContext.Set<Administrator>()
+                .Include(workplace => workplace.Workplace)
+                .ThenInclude(m => m.Address)
+                    .ThenInclude(c => c.City)
+                .Include(p => p.ListOfPhones)
+                .Include(us => us.UserSecurity)
+                .ToList();
 
             var CustomerDbSet = _OrderDBContext.Set<Customer>()
                 .Include(m => m.Address)
                     .ThenInclude(c => c.City)
                 .Include(p => p.ListOfPhones)
                 .Include(us => us.UserSecurity)
-                .ToList();
-
-            var user = _OrderDBContext.Set<User>().ToList();
+                .ToList();           
 
 
             Users.AddRange(CustomerDbSet);
