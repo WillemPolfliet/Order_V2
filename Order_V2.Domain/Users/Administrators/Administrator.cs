@@ -1,4 +1,5 @@
 ﻿using Order_V2.Domain.Users.Attributes;
+using Order_V2.Domain.Users.Authentication;
 using Order_V2.Domain.Users.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -7,48 +8,28 @@ using System.Text;
 
 namespace Order_V2.Domain.Users.Administrators
 {
-    public class Administrator
+    public class Administrator : User
     {
-        public Guid AdministratorID { get; private set; }
-        public string Name { get; private set; }
-        public string Login_Email { get; private set; }
-        public DateTime RegistrationDate { get; private set; }
-        public DateTime DateEdited { get; private set; }
-        public string PhoneNumber { get; set; }
         public Workplace Workplace { get; set; }
 
-
-        private Administrator()
-        { }
-
-        private Administrator(string name, string login_Email, Workplace workplace, string phoneNumber)
+        private Administrator(string firstName, string lastName, Workplace workplace, string login_Email, DateTime registrationDate, DateTime dateEdited, UserSecurity userSecurity) :
+            base(registrationDate, dateEdited, firstName, lastName, login_Email, userSecurity)
         {
-            Name = name;
-            Login_Email = login_Email;
-            PhoneNumber = phoneNumber;
             Workplace = workplace;
         }
 
-        public static Administrator CreateNewObjectOfAdministrator(string firstName, string login_Email, Workplace workplace, string phoneNumber)
-        {
+        public static Administrator CreateNewObjectOfAdmùinistrator(string firstName, string lastName, Workplace workplace, string login_Email, DateTime registrationDate, DateTime dateEdited, UserSecurity userSecurity)
+        {       
             try
-            {
-                MailAddress m = new MailAddress(login_Email);
-            }
+            { MailAddress m = new MailAddress(login_Email); }
             catch (FormatException ex)
-            {
-                throw new UserEcxeption(Type.GetType("Order_V2.Domain.Users.Administrators"), ex.Message);
-            }
+            { throw new UserEcxeption(Type.GetType("Order_V2.Domain.Users.Administrators"), ex.Message); }
 
-            return new Administrator(firstName, login_Email, workplace, phoneNumber);
+            if (registrationDate > DateTime.Today || dateEdited > DateTime.Today)
+            { throw new UserEcxeption(Type.GetType("Order_V2.Domain.Users.Administrators"), "Date Cannot be in the futur"); }
 
-
-            //if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName) || address == null || string.IsNullOrWhiteSpace(login_Email))
-            //{
-            //    return null;
-            //}
-
-
+            return new Administrator(firstName, lastName, workplace, login_Email, registrationDate, dateEdited, userSecurity);
         }
     }
 }
+

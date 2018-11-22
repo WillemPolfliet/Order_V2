@@ -4,35 +4,6 @@ go
 create schema Users
 go
 
-create table Users.Customers
-(
-	Customer_ID uniqueidentifier not null default newid(),
-	FirstName nvarchar(100) not null,
-	StreetName nvarchar(100) not null,
-	StreetNumber nvarchar(10) not null,
-	City_ZIP int not null,
-	RegistrationDate Date not null,
-	DateEdited Date not null,
-	LastName nvarchar(100) not null,
-	Login_Email nvarchar(100) not null,
-	Login_HashPass nvarchar(100)  null
-
-	constraint Customer_PK primary key (Customer_ID)
-)
-
-create table Users.Administrators
-(
-	Administrators_ID uniqueidentifier not null default newid(),
-	Workplace_ID  uniqueidentifier not null,
-	PhoneNumber nvarchar(30) not null,
-	RegistrationDate Datetime not null,
-	DateEdited Datetime not null,
-	Name nvarchar(100) not null,
-	Login_Email nvarchar(100) not null,
-	Login_HashPass nvarchar(100) null
-	constraint Administrators_PK primary key (Administrators_ID)
-)
-
 create table Users.Cities
 (
 	City_ZIP int not null,
@@ -53,9 +24,50 @@ create table Users.Workplaces
 
 create table Users.PhoneNumbers
 (
-	Customer_ID uniqueidentifier not null,
+	User_ID uniqueidentifier not null,
 	PhoneNumber varchar(100) not null
 )
+
+
+create table Users.Users
+(
+	User_ID uniqueidentifier not null default newid(),
+	RegistrationDate Date not null,
+	DateEdited Date not null,
+	FirstName nvarchar(100) not null,
+	LastName nvarchar(100) not null,
+	Login_Email nvarchar(100) not null,
+	Login_HashPass nvarchar(100)  not null,
+	Login_Salt nvarchar(100)  not null,
+
+	constraint User_PK primary key (User_ID)
+)
+
+create table Users.Customers
+(	
+	User_ID uniqueidentifier not null,
+	StreetName nvarchar(100) not null,
+	StreetNumber nvarchar(10) not null,
+	City_ZIP int not null	
+)
+
+create table Users.Administrators
+(
+	User_ID uniqueidentifier not null,
+	Workplace_ID  uniqueidentifier not null
+)
+
+
+
+
+
+alter table Users.Administrators	
+	add constraint Administrators_Users_FK
+	foreign key (User_ID) references Users.Users(User_ID)
+
+alter table Users.Customers	
+	add constraint Customers_Users_FK
+	foreign key (User_ID) references Users.Users(User_ID)
 
 alter table Users.Customers	
 	add constraint Customers_Cities_FK
@@ -64,11 +76,12 @@ alter table Users.Customers
 alter table Users.Administrators	
 	add constraint Administrators_Workplaces_FK
 	foreign key (Workplace_ID) references Users.Workplaces(Workplace_ID)
+
 alter table Users.Workplaces	
 	add constraint Workplaces_Cities_FK
 	foreign key (City_ZIP) references Users.Cities(City_ZIP)
 
 alter table Users.PhoneNumbers
-	add constraint PhoneNumbers_Customers_FK
-	foreign key (Customer_ID) references Users.Customers(Customer_ID)
+	add constraint PhoneNumbers_Users_FK
+	foreign key (User_ID) references Users.Users(User_ID)
 

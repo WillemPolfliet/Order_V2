@@ -17,16 +17,11 @@ namespace Order_V2.API.Controllers.Users.Mapper
         {
             _userAuthService = userAtuhService;
         }
-
-
+        
 
         public LoginUserInformation DTOToLoginUserInfo(LoginRequestDTO loginRequestDTO)
         {
-            return new LoginUserInformation()
-            {
-               Email= loginRequestDTO.Email,
-               Password= _userAuthService.CreateUserSecurity(loginRequestDTO.Password)
-            };
+            return new LoginUserInformation(loginRequestDTO.Email, _userAuthService.CreateUserSecurity(loginRequestDTO.Password));
         }
 
         public LoginRequestDTO LoginInfoToDTO(LoginUserInformation loginRequestDTO)

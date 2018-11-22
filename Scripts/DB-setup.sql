@@ -90,7 +90,7 @@ GO
 
 /*
 User creation
-*/
+
 CREATE LOGIN [Order_V2_owner] WITH PASSWORD='Order_V2_owner', 
 	DEFAULT_DATABASE=[Order_V2], 
 	DEFAULT_LANGUAGE=[us_english], 
@@ -102,4 +102,4 @@ USE [Order_V2]
 	CREATE USER [Order_V2_owner] FOR LOGIN [Order_V2_owner]
 	ALTER ROLE [db_owner] ADD MEMBER [Order_V2_owner]
 GO
-
+*/

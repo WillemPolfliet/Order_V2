@@ -1,8 +1,10 @@
-﻿using Order_V2.Domain.Users.Authentication;
+﻿using Microsoft.IdentityModel.Tokens;
+using Order_V2.Domain.Users.Authentication;
 using Order_V2.Services.Users.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 
 namespace Order_V2.Services.Users.Security
@@ -24,19 +26,13 @@ namespace Order_V2.Services.Users.Security
 
         public JwtSecurityToken Authenticate(string providedEmail, string providedPassword)
         {
-            LoginUserInformation foundUser = _userService.FindByLoginEmailAsync(providedEmail);
+            LoginUserInformation foundUser = _userService.FindByLoginEmail(providedEmail);
 
             if (IsSuccessfullyAuthenticated(providedEmail, providedPassword, foundUser.UserSecurity))
             {
                 return new JwtSecurityTokenHandler().CreateToken(CreateTokenDescription(foundUser)) as JwtSecurityToken;
             }
             return null;
-        }
-
-        public User GetCurrentLoggedInUser(ClaimsPrincipal principleUser)
-        {
-            var emailOfAuthenticatedUser = principleUser.FindFirst(ClaimTypes.Email)?.Value;
-            return _userService.FindByEmail(emailOfAuthenticatedUser);
         }
 
         public UserSecurity CreateUserSecurity(string userPassword)
@@ -47,16 +43,14 @@ namespace Order_V2.Services.Users.Security
                 saltToBeUsed);
         }
 
-        private SecurityTokenDescriptor CreateTokenDescription(User foundUser)
+        private SecurityTokenDescriptor CreateTokenDescription(LoginUserInformation foundUser)
         {
             var key = Encoding.ASCII.GetBytes(SECRET_KEY);
             SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Email, foundUser.Email)
-                }),
-                Expires = DateTime.UtcNow.AddHours(8),
+                    { new Claim(ClaimTypes.Email, foundUser.Email) }),
+                Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             return tokenDescriptor;

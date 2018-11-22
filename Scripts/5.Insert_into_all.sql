@@ -24,44 +24,6 @@ insert into Users.Cities
 		'Belgie'
 	)	
 
-
-insert into Users.Customers 
-	(		
-		FirstName,
-		LastName,
-		Login_Email,
-		Login_HashPass,
-		StreetName,
-		StreetNumber,
-		City_ZIP,
-		RegistrationDate,
-		DateEdited
-	)
-	values
-	(
-		'Filip',
-		'Derese', 
-		'costumer@order.com',
-		'e4MzbfoVWToQPl8hhJfV0wa47j82H5C8mBOr4QTxdpk=',
-		'Nieuwstraat', 
-		'15C',
-		5540,
-		CONVERT(date,'1-11-2018', 103),
-		CONVERT(date,'1-11-2018', 103)
-		
-	),
-	(
-		'Gwen',
-		'Verbruggen', 
-		'Costumer1@order.com',
-		'2ivcKvaD/5fFm9skyQYAAlBNhTqLBR4BLFFokixUNV0=',
-		'Oudenbolweg', 
-		'142',
-		3000,
-		CONVERT(date,'2-11-2018', 103),		
-		CONVERT(date,'2-11-2018', 103)
-	)
-
 insert into Users.Workplaces 
 	(				
 		OfficeName,
@@ -77,123 +39,102 @@ insert into Users.Workplaces
 		'125C'
 	)
 
+insert into Users.Users 
+	(		
+		RegistrationDate ,
+		DateEdited,
+		FirstName,
+		LastName,
+		Login_Email,
+		Login_HashPass,
+		Login_Salt
+	)
+	values
+	(
+		CONVERT(date,'1-11-2018', 103),
+		CONVERT(date,'1-11-2018', 103),
+		'Albert',
+		'Fransen', 
+		'admin@order.com',
+		'InbBsK3LhfjJi9nmZG2jd1IYaNKuvwLMxIjPeOg3yUg=',
+		'3gXWznyrL1HCdobzyrdzSQ=='	
+	),
+	(
+		CONVERT(date,'2-11-2018', 103),
+		CONVERT(date,'2-11-2018', 103),
+		'Filip',
+		'Derese', 
+		'costumer@order.com',
+		'Gf8AKTqvuNnIZm1gJum55+VhJbinrCajSULPmIaLvVU=',
+		'EiSVNZrgq25D9CuVLq8Qvw=='			
+	),
+	(
+		CONVERT(date,'1-11-2018', 103),
+		CONVERT(date,'1-11-2018', 103),
+		'Steffi',
+		'Struyfs', 
+		'jfs84CROd9SFpP9qhJQcBg==',
+		'pRX+/tiuJAsj4WYj4kj6V2ZuJDZ8u2BmFbfAtGeX/yA=',
+		'jfs84CROd9SFpP9qhJQcBg=='	
+	)
+	
 insert into Users.Administrators 
 	(				
-		Name, 
-		Login_Email ,
-		Login_HashPass, 
-		Workplace_ID, 
-		PhoneNumber,
-		RegistrationDate ,
-		DateEdited
+		User_ID,
+		Workplace_ID
 	)
 	values		
 	(
-		'Gwen',
-		'admin@order.com',
-		'hYtKav97hWW5Ex8y0tvSCFmiGAsBMYF3KENyKdDZ5bc=',
-		(select Workplace_ID from Users.Workplaces), 
-		'00321563256',		
-		CONVERT(date,'1-11-2018', 103),
-		CONVERT(date,'1-11-2018', 103)
+		(select User_ID from Users.Users where LastName like 'Fransen'),
+		(select Workplace_ID from Users.Workplaces where OfficeName like 'SpaceTime')
 	)
 
+insert into Users.Customers
+	(
+		User_ID,
+		City_ZIP,
+		StreetName,
+		StreetNumber
+	)
+	values
+	(
+		(select User_ID from Users.Users where LastName like 'Derese'),
+		3340,
+		'NieuwStraat',
+		'15B'
+	),
+	(
+		(select User_ID from Users.Users where LastName like 'Struyfs'),
+		3340,			
+		'OudeBolWeg',
+		'356'
+	)
+		
 insert into Users.PhoneNumbers
 	(
-		Customer_ID,
+		User_ID,
 		PhoneNumber
 	)
 	values
 	(
-		(select Customer_ID
-		from Users.Customers
-		where LastName like 'Verbruggen' ),
-		 '018532624'
-	),
-	(
-		(select Customer_ID
-		from Users.Customers
-		where LastName like 'Derese' ),
+		(select User_ID from Users.Users where LastName like 'Fransen'),
 		 '018333333'
 	),
 	(
-		(select Customer_ID
-		from Users.Customers
-		where LastName like 'Derese' ),
-		 '015326598'
-	)
-
-
-insert into Sales.Items
-	(
-		Name,
-		Description,
-		Price,
-		AmountInStock,
-		DateAdded,
-		DateEdited
-	)
-	values
-	(
-		'FunThing',
-		'Just some Funny Object',
-		12.30,
-		56,
-		CONVERT(date,'5-11-2018', 103),
-		CONVERT(date,'5-11-2018', 103)
+		(select User_ID from Users.Users where LastName like 'Fransen'),
+		 '04649658523'
 	),
 	(
-		'LameThing',
-		'Just some lame stupid Object',
-		222.30,
-		6,
-		CONVERT(date,'5-11-2018', 103),
-		CONVERT(date,'5-11-2018', 103)
-	),	
+		(select User_ID from Users.Users where LastName like 'Fransen'),
+		 '012356563'
+	),
 	(
-		'BLaBLa',
-		'BlaBlaBlaBlaBlaBlaBlaBlaBlaBlaBlaBlaBlaBlaBla',
-		0.01,
-		102425,
-		CONVERT(date,'4-11-2018', 103),
-		CONVERT(date,'4-11-2018', 103)
+		(select User_ID from Users.Users where LastName like 'Struyfs'),
+		 '018532624'
+	),
+	(
+		(select User_ID from Users.Users where LastName like 'Derese'),
+		 '015326598'
 	)
-
-insert into OrderLine.PlacedOrders
-	(
-      Customer_ID,
-		DateOrdered,
-		DateShipped
-	)
-	values
-	(
-		(select Customer_ID
-		from Users.Customers
-		where LastName like 'Verbruggen' ),
-		CONVERT(date,'6-11-2018', 103),
-		CONVERT(date,'6-11-2018', 103)		 
-	)
-
-insert into OrderLine.ItemGroups
-	(
-		PlacedOrder_ID,
-		Item_ID,
-		PricePerItem,
-		Item_Amount,
-		EstimatedShippingDate,
-		Description
-	)	
-	values
-	(
-		(
-		select PlacedOrder_ID 
-		from OrdeRLine.PlacedOrders
-		),
-		(select Item_ID from Sales.Items where Name like 'FunThing'),
-		(select Price from Sales.Items where Name like 'FunThing'),
-		5,
-		CONVERT(date,'11-11-2018', 103),	 
-		'phu'
-	)
-
+	
 	

@@ -8,47 +8,30 @@ using System.Text;
 
 namespace Order_V2.Domain.Users.Customers
 {
-    public class Customer
+    public class Customer : User
     {
-        public Guid CustomerID { get; private set; }
-        public string FirstName { get; private set; }
-        public string LastName { get; private set; }
+        private static object userSecurity;
+
         public Address Address { get; private set; }
-        public DateTime RegistrationDate { get; private set; }
-        public DateTime DateEdited { get; private set; }
-        public string Login_Email { get; private set; }
-        public List<PhoneNumber> ListOfPhones { get; set; } = new List<PhoneNumber>();
-        public string Login_HashPass { get; private set; }
 
-        public UserSecurity UserSecurity { get; }
 
-        private Customer()
-        { }
-
-        private Customer(string firstName, string lastName, Address address, string login_Email)
+        private Customer(string firstName, string lastName, Address address, string login_Email, DateTime registrationDate, DateTime dateEdited, UserSecurity userSecurity) :
+            base(registrationDate, dateEdited, firstName, lastName, login_Email, userSecurity)
         {
-            FirstName = firstName;
-            LastName = lastName;
             Address = address;
-            RegistrationDate = DateTime.Now;
-            DateEdited = DateTime.Now;
-            Login_Email = login_Email;
-            Login_HashPass = "Not implemented Yet";
         }
 
-        public static Customer CreateNewObjectOfCustomer(string firstName, string lastName, Address address, string login_Email)
+        public static Customer CreateNewObjectOfCustomer(string firstName, string lastName, Address address, string login_Email, DateTime registrationDate, DateTime dateEdited, UserSecurity userSecurity)
         {
             try
-            {
-                MailAddress m = new MailAddress(login_Email);
-            }
+            { MailAddress m = new MailAddress(login_Email); }
             catch (FormatException ex)
-            {
-                throw new UserEcxeption(Type.GetType("Order_V2.Domain.Users.Customers"), ex.Message);
-            }
+            { throw new UserEcxeption(Type.GetType("Order_V2.Domain.Users.Customers"), ex.Message); }
 
-            return new Customer(firstName, lastName, address, login_Email);
+            if (registrationDate > DateTime.Today || dateEdited > DateTime.Today)
+            { throw new UserEcxeption(Type.GetType("Order_V2.Domain.Users.Customers"), "Date Cannot be in the futur"); }
 
+            return new Customer(firstName, lastName, address, login_Email, registrationDate, dateEdited, userSecurity);
         }
     }
 }

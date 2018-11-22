@@ -79,15 +79,17 @@ namespace Order_V2.Services.Users
             return customer;
         }
 
-        public async Task<LoginUserInformation> FindByLoginEmailAsync(string providedEmail)
+        public LoginUserInformation FindByLoginEmail(string providedEmail)
         {
-            LoginUserInformation Login = await _OrderDBContext.Users.SingleOrDefaultAsync(x => x.Login_Email == providedEmail);
+            var LoginID = _OrderDBContext.Users.SingleOrDefault(customer => customer.Login_Email == providedEmail);
+            if (LoginID == null)
+            { return null; }
 
-            if (customer == null)
-            {
-                return null;
-            }
+            var mail = LoginID.Login_Email;
+            var pass = LoginID.Login_HashPass;
+            var salt = LoginID.Salt;
 
+            LoginUserInformation Login = new LoginUserInformation(mail, new UserSecurity(pass,salt) );
             return Login;
         }
 

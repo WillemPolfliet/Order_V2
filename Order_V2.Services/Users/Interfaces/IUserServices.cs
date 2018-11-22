@@ -13,6 +13,6 @@ namespace Order_V2.Services.Users.Interfaces
         Customer RegisterNewCustomerAsync(Customer_InternalDTO internalDTO);
         void AddPhoneNumbersToCostumer(Customer_InternalDTO internalDTO, Customer customer);
         Task<Customer> GetSingleCustomerAsync(Guid CustomerID);
-        LoginUserInformation FindByLoginEmailAsync(string providedEmail);
+        LoginUserInformation FindByLoginEmail(string providedEmail);
     }
 }

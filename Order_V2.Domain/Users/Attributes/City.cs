@@ -13,7 +13,7 @@ namespace Order_V2.Domain.Users.Attributes
         private City()
         { }
 
-        public City(int zip, string cityName, string countryName)
+        private City(int zip, string cityName, string countryName)
         {
             ZIP = zip;
             CityName = cityName;
