@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Order_V2.Domain.Users.Customers
 {
-    public class Customer 
+    public class Customer
     {
         public Guid CustomerID { get; private set; }
         public string FirstName { get; private set; }
@@ -17,6 +17,7 @@ namespace Order_V2.Domain.Users.Customers
         public DateTime DateEdited { get; private set; }
         public string Login_Email { get; private set; }
         public List<PhoneNumber> ListOfPhones { get; set; } = new List<PhoneNumber>();
+        public string Login_HashPass { get; private set; }
 
 
         private Customer()
@@ -30,6 +31,7 @@ namespace Order_V2.Domain.Users.Customers
             RegistrationDate = DateTime.Now;
             DateEdited = DateTime.Now;
             Login_Email = login_Email;
+            Login_HashPass = "Not implemented Yet";
         }
 
         public static Customer CreateNewObjectOfCustomer(string firstName, string lastName, Address address, string login_Email)

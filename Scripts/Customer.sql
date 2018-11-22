@@ -3,6 +3,7 @@ go
 
 create schema Users
 go
+
 create table Users.Customers
 (
 	Customer_ID uniqueidentifier not null default newid(),
@@ -10,21 +11,22 @@ create table Users.Customers
 	StreetName nvarchar(100) not null,
 	StreetNumber nvarchar(10) not null,
 	City_ZIP int not null,
-	RegistrationDate date not null,
-	DateEdited date not null,
+	RegistrationDate Date not null,
+	DateEdited Date not null,
 	LastName nvarchar(100) not null,
 	Login_Email nvarchar(100) not null,
 	Login_HashPass nvarchar(100)  null
 
 	constraint Customer_PK primary key (Customer_ID)
 )
+
 create table Users.Administrators
 (
 	Administrators_ID uniqueidentifier not null default newid(),
 	Workplace_ID  uniqueidentifier not null,
 	PhoneNumber nvarchar(30) not null,
-	RegistrationDate date not null,
-	DateEdited date not null,
+	RegistrationDate Datetime not null,
+	DateEdited Datetime not null,
 	Name nvarchar(100) not null,
 	Login_Email nvarchar(100) not null,
 	Login_HashPass nvarchar(100) null

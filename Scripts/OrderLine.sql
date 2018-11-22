@@ -8,8 +8,8 @@ create table OrderLine.PlacedOrders
 (
 	PlacedOrder_ID uniqueidentifier not null default newid(),
 	Customer_ID uniqueidentifier not null,
-	DateOrdered date not null,
-	DateShipped date null,
+	DateOrdered Datetime not null,
+	DateShipped Datetime null,
 	constraint Item_PK primary key (PlacedOrder_ID)
 )
 create table OrderLine.ItemGroups
@@ -19,7 +19,7 @@ create table OrderLine.ItemGroups
 	Item_ID uniqueidentifier not null,
 	PricePerItem decimal(6,2) not null,
 	Item_Amount int not null,	
-	EstimatedShippingDate date not null,
+	EstimatedShippingDate Datetime not null,
 	Description nvarchar(100) null
 )
 

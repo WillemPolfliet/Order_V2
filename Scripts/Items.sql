@@ -11,8 +11,8 @@ create table Sales.Items
 	Description nvarchar(100) not null,
 	Price Decimal(6,2) not null,
 	AmountInStock int not null,
-	DateAdded date not null,
-	DateEdited date not null
+	DateAdded Datetime not null,
+	DateEdited Datetime not null
 	constraint Item_PK primary key (Item_ID)
 )
 

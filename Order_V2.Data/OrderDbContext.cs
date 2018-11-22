@@ -67,6 +67,8 @@ namespace Order_V2.Data
                 .Property(d => d.RegistrationDate).HasColumnName("RegistrationDate");
             modelBuilder.Entity<Customer>()
                 .Property(d => d.DateEdited).HasColumnName("DateEdited");
+            modelBuilder.Entity<Customer>()
+                 .Property(d => d.Login_HashPass).HasColumnName("Login_HashPass");
         }
         private static void GenerateEntityDB_City(ModelBuilder modelBuilder)
         {
