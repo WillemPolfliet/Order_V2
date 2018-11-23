@@ -11,15 +11,10 @@ namespace Order_V2.API.Controllers.Users.Mapper
     public class CustomerMapper : ICustomerMapper
     {
         private readonly IAddressMapper _addressMapper;
-        //private readonly IPhoneNumberMapper _phoneNumberMapper;
 
-
-        public CustomerMapper(IAddressMapper addressMapper
-            //, IPhoneNumberMapper phoneNumberMapper
-            )
+        public CustomerMapper(IAddressMapper addressMapper)
         {
             _addressMapper = addressMapper;
-            //_phoneNumberMapper = phoneNumberMapper;
         }
 
 
@@ -39,14 +34,15 @@ namespace Order_V2.API.Controllers.Users.Mapper
         public CustomerDTO_Return CustomerToDTOReturn(Customer customer)
         {
             return new CustomerDTO_Return
-            {                      
-                CustomerID = customer.User_ID,
+            {
+                User_ID = customer.User_ID,
+                Discriminator = customer.Discriminator,
                 FirstName = customer.FirstName,
                 LastName = customer.LastName,
                 Address = _addressMapper.AddressToDTO(customer.Address),
                 RegistrationDate = customer.RegistrationDate,
                 DateEdited = customer.DateEdited,
-                Login_Email = customer.Login_Email,                
+                Login_Email = customer.Login_Email,
                 ListOfPhones = customer.ListOfPhones.Select(x => x.PhoneNumberValue).ToList()
             };
         }
@@ -54,17 +50,15 @@ namespace Order_V2.API.Controllers.Users.Mapper
 
 
 
-        //public Customer_InternalDTO DTOToCustomer_InternalDTO(CustomerDTO_Create customerDTO)
-        //{
-        //    return new Customer_InternalDTO()
-        //    {
-        //        FirstName = customerDTO.FirstName,
-        //        LastName = customerDTO.LastName,
-        //        Address = _addressMapper.DTOToAddress(customerDTO.Address),
-        //        ListOfPhones = _phoneNumberMapper.DTOListToPhoneNumpberInternalDTO(customerDTO.ListOfPhones),
-        //        Login_Email = customerDTO.Login_Email
-        //    };
+        public Customer_InternalDTO DTOToCustomer_InternalDTO(CustomerDTO_Create customerDTO)
+        {
+            return new Customer_InternalDTO()
+            {
+                FirstName = customerDTO.FirstName,
+                LastName = customerDTO.LastName,
+               
+            };
 
-        //}
+        }
     }
 }
