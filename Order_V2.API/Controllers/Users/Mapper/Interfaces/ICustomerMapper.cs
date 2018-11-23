@@ -14,7 +14,7 @@ namespace Order_V2.API.Controllers.Users.Mapper.Interfaces
         CustomerDTO_Return CustomerToDTOReturn(Customer customer);
         List<CustomerDTO_Return> CustomerListToDTOReturnList(List<Customer> CustomerList);
 
-        //Customer_InternalDTO DTOToCustomer_InternalDTO(CustomerDTO_Create customerDTO);
+        Customer_InternalDTO DTOToCustomer_InternalDTO(CustomerDTO_Create customerDTO);
         
     }
 }

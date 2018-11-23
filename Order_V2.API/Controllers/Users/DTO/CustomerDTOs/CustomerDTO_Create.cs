@@ -13,6 +13,5 @@ namespace Order_V2.API.Controllers.Users.CustomerDTOs.DTO
         public string LastName { get; set; }
         public AddressDTO Address { get; set; }
         public string Login_Email { get; set; }
-        public List<PhoneNumberDTO> ListOfPhones { get; set; } = new List<PhoneNumberDTO>();
     }
 }

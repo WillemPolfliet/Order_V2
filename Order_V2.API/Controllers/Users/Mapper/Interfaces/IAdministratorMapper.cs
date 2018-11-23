@@ -12,5 +12,7 @@ namespace Order_V2.API.Controllers.Users.Mapper.Interfaces
     {
         AdministratorDTO_Return AdministratorToDTOReturn(Administrator item);
         List<AdministratorDTO_Return> AdministratorListToDTOReturnList(List<Administrator> adminList);
+        Administrator_InternalDTO DTOToInternalDTO(AdministratorDTO_Create item);
+
     }
 }
