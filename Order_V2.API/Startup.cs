@@ -49,10 +49,13 @@ namespace Order_V2.API
 
 
             services.AddSingleton<IUserServices, UserServices>();
-            services.AddSingleton<IPhoneNumberMapper, PhoneNumberMapper>();
+            services.AddSingleton<IAdministratorMapper, AdministratorMapper>();
+            services.AddSingleton<ICustomerMapper, CustomerMapper>();
             services.AddSingleton<IAddressMapper, AddressMapper>();
             services.AddSingleton<ICityMapper, CityMapper>();
-            services.AddSingleton<ICustomerMapper, CustomerMapper>();
+            services.AddSingleton<IUserMapper, UserMapper>();
+            services.AddSingleton<IWorkplaceMapper, WorkplaceMapper>();
+            services.AddSingleton<ILoginMapper, LoginMapper>();
 
             services.AddSingleton<Hasher>().AddSingleton<Salter>().AddSingleton<UserAuthenticationServices>();
             //services.AddCors();

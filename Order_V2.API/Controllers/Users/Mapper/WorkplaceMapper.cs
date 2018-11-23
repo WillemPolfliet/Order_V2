@@ -10,6 +10,14 @@ namespace Order_V2.API.Controllers.Users.Mapper
 {
     public class WorkplaceMapper : IWorkplaceMapper
     {
+        private readonly IAddressMapper _addressMapper;
+
+        public WorkplaceMapper(IAddressMapper addressMapper)
+        {
+            _addressMapper = addressMapper;
+        }
+
+
         public Workplace DTOToWorkplace(WorkPlaceDTO WorkplaceDTO)
         {
             throw new NotImplementedException();
@@ -17,7 +25,11 @@ namespace Order_V2.API.Controllers.Users.Mapper
 
         public WorkPlaceDTO WorkplaceToDTO(Workplace Workplace)
         {
-            throw new NotImplementedException();
+            return new WorkPlaceDTO()
+            {
+                AddressDTO = _addressMapper.AddressToDTO(Workplace.Address),
+                OfficeName = Workplace.OfficeName
+            };
         }
     }
 }

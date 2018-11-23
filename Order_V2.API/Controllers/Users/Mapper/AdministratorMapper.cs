@@ -39,7 +39,7 @@ namespace Order_V2.API.Controllers.Users.Mapper
                 RegistrationDate = admin.RegistrationDate,
                 User_ID = admin.User_ID,
                 ListOfPhones = admin.ListOfPhones.Select(x => x.PhoneNumberValue).ToList(),
-                WorkplaceDTO = _workplaceMapper.WorkplaceToDTO(admin.Workplace)                
+                WorkplaceDTO = _workplaceMapper.WorkplaceToDTO(admin.Workplace)
             };
         }
 

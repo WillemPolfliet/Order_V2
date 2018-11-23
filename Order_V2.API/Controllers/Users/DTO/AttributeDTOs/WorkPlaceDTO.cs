@@ -8,7 +8,7 @@ namespace Order_V2.API.Controllers.Users.DTO.AttributeDTOs
 {
     public class WorkPlaceDTO
     {
-        public string OfficeName { get; private set; }
-        public AddressDTO AddressDTO { get; private set; }
+        public string OfficeName { get; set; }
+        public AddressDTO AddressDTO { get;  set; }
     }
 }
