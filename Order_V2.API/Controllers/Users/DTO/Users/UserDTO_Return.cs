@@ -7,7 +7,6 @@ namespace Order_V2.API.Controllers.Users.DTO.Users
 {
     public class UserDTO_Return
     {
-
         public Guid User_ID { get; set; }
         public string Discriminator { get; set; }
         public string FirstName { get; set; }
