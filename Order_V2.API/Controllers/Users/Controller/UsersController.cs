@@ -80,16 +80,15 @@ namespace Order_V2.API.Controllers.Users.Controller
                 return BadRequest(ex.Message);
             }
         }
-
-
+        
 
         [HttpGet]
-        [Route("{CustomerID}")]
-        public async Task<ActionResult<UserDTO_Return>> GetSingleUserAsync([FromRoute] Guid CustomerID)
+        [Route("{UserID}")]
+        public async Task<ActionResult<UserDTO_Return>> GetSingleUserAsync([FromRoute] Guid UserID)
         {
             try
             {
-                var User = await _userServices.GetSingleUserAsync(CustomerID);
+                var User = await _userServices.GetSingleUserAsync(UserID);
                 var toReturn = _userMapper.UserToDTOReturn(User);
 
                 if (toReturn == null)
@@ -104,16 +103,39 @@ namespace Order_V2.API.Controllers.Users.Controller
             }
         }
 
+
         [HttpPost]
-        public ActionResult CreateMember(CustomerDTO_Create CustomerDTO)
+        [Route("CreateNewCustomer")]
+        public ActionResult RegisterNewCustomer(CustomerDTO_Create CustomerDTO)
         {
             try
             {
                 var internalDTO = _customerMapper.DTOToCustomer_InternalDTO(CustomerDTO);
 
-                var tempCostumer = _userServices.RegisterNewCustomerAsync(internalDTO);
+                var tempCostumer = _userServices.RegisterNewCustomer(internalDTO);
 
-                _userServices.AddPhoneNumbersToCostumer(internalDTO, tempCostumer);
+                _userServices.AddPhoneNumbersToUserID(internalDTO.ListOfPhones, tempCostumer.User_ID);
+            }
+            //catch (UserException ex)
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+
+            return Ok();
+        }
+        [HttpPost]
+        [Route("CreateNewAdmin")]
+        public ActionResult RegisterNewAdmin(AdministratorDTO_Create AdminDTO)
+        {
+            try
+            {
+                var internalDTO = _administratorMapper.DTOToInternalDTO(AdminDTO);
+
+                var tempAdmin = _userServices.RegisterNewAdministrator(internalDTO);
+
+                _userServices.AddPhoneNumbersToUserID(internalDTO.ListOfPhones, tempAdmin.User_ID);
             }
             //catch (UserException ex)
             catch (Exception ex)
