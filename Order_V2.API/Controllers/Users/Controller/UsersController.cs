@@ -30,7 +30,7 @@ namespace Order_V2.API.Controllers.Users.Controller
             _userMapper = userMapper;
             _administratorMapper = administratorMapper;
         }
-
+                             
 
         [HttpGet]
         [Route("GetAllUsers")]
@@ -112,9 +112,9 @@ namespace Order_V2.API.Controllers.Users.Controller
             {
                 var internalDTO = _customerMapper.DTOToCustomer_InternalDTO(CustomerDTO);
 
-                var tempCostumer = _userServices.RegisterNewCustomer(internalDTO);
+                _userServices.RegisterNewCustomer(internalDTO);
 
-                _userServices.AddPhoneNumbersToUserID(internalDTO.ListOfPhones, tempCostumer.User_ID);
+               _userServices.AddPhoneNumbersToUserID(CustomerDTO.ListOfPhones, internalDTO.User_ID);
             }
             //catch (UserException ex)
             catch (Exception ex)
@@ -129,20 +129,20 @@ namespace Order_V2.API.Controllers.Users.Controller
         [Route("CreateNewAdmin")]
         public ActionResult RegisterNewAdmin(AdministratorDTO_Create AdminDTO)
         {
-            try
-            {
-                var internalDTO = _administratorMapper.DTOToInternalDTO(AdminDTO);
+            //try
+            //{
+            //    var internalDTO = _administratorMapper.DTOToInternalDTO(AdminDTO);
+            //    _userServices.AddPhoneNumbersToUserID(internalDTO.ListOfPhones, tempAdmin.User_ID);
 
-                var tempAdmin = _userServices.RegisterNewAdministrator(internalDTO);
+            //    var tempAdmin = _userServices.RegisterNewAdministrator(internalDTO);
 
-                _userServices.AddPhoneNumbersToUserID(internalDTO.ListOfPhones, tempAdmin.User_ID);
-            }
-            //catch (UserException ex)
-            catch (Exception ex)
-            {
+            //}
+            ////catch (UserException ex)
+            //catch (Exception ex)
+            //{
 
-                return BadRequest(ex.Message);
-            }
+            //    return BadRequest(ex.Message);
+            //}
 
             return Ok();
         }

@@ -11,5 +11,6 @@ namespace Order_V2.API.Controllers.Users.Mapper.Interfaces
     {
         //LoginUserInformation DTOToLoginUserInfo(LoginRequestDTO loginRequestDTO);
         //LoginRequestDTO LoginInfoToDTO(LoginUserInformation loginRequestDTO);
+        UserSecurity CreateUserSecurity(string login_Pass);
     }
 }

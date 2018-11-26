@@ -17,7 +17,12 @@ namespace Order_V2.API.Controllers.Users.Mapper
         {
             _userAuthService = userAtuhService;
         }
-        
+
+        public UserSecurity CreateUserSecurity(string login_Pass)
+        {
+            return new UserSecurity(login_Pass, "salt");
+        }
+
 
         //public LoginUserInformation DTOToLoginUserInfo(LoginRequestDTO loginRequestDTO)
         //{

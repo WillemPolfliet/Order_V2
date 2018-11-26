@@ -15,8 +15,8 @@ namespace Order_V2.Services.Users.Interfaces
         List<Administrator> GetAllAdmins();
         List<Customer> GetAllCustomers();
 
-        Customer RegisterNewCustomer(Customer_InternalDTO internalDTO);
-        Administrator RegisterNewAdministrator(Administrator_InternalDTO internalDTO);
+        Customer RegisterNewCustomer(Customer internalDTO);
+        Administrator RegisterNewAdministrator(Administrator internalDTO);
 
         void AddPhoneNumbersToUserID(List<String> phoneNumbers, Guid givenUser_ID);
 

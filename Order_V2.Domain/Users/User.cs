@@ -19,7 +19,7 @@ namespace Order_V2.Domain.Users
         public string Login_Email { get; private set; }
         public UserSecurity UserSecurity { get; private set; }
 
-        public List<PhoneNumber> ListOfPhones { get; private set; } = new List<PhoneNumber>();
+        public List<PhoneNumber> ListOfPhones { get; set; } = new List<PhoneNumber>();
 
         protected User()
         { }
@@ -33,6 +33,10 @@ namespace Order_V2.Domain.Users
             LastName = lastName;
             Login_Email = login_Email;
             UserSecurity = userSecurity;
+        }
+        public void AddPhones (List<PhoneNumber> givenPhones)
+        {
+            this.ListOfPhones = givenPhones;
         }
 
         //if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName) || address == null || string.IsNullOrWhiteSpace(login_Email))

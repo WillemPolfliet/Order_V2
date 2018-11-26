@@ -11,10 +11,13 @@ namespace Order_V2.API.Controllers.Users.Mapper
     public class CustomerMapper : ICustomerMapper
     {
         private readonly IAddressMapper _addressMapper;
+        private readonly ILoginMapper _loginMapper;
 
-        public CustomerMapper(IAddressMapper addressMapper)
+
+        public CustomerMapper(IAddressMapper addressMapper, ILoginMapper loginMapper)
         {
             _addressMapper = addressMapper;
+            _loginMapper = loginMapper;
         }
 
 
@@ -48,17 +51,12 @@ namespace Order_V2.API.Controllers.Users.Mapper
         }
 
 
-
-
-        public Customer_InternalDTO DTOToCustomer_InternalDTO(CustomerDTO_Create customerDTO)
+        public Customer DTOToCustomer_InternalDTO(CustomerDTO_Create customerDTO)
         {
-            return new Customer_InternalDTO()
-            {
-                FirstName = customerDTO.FirstName,
-                LastName = customerDTO.LastName,
-               
-            };
+            var address = _addressMapper.DTOToAddress(customerDTO.Address);
+            var sec = _loginMapper.CreateUserSecurity(customerDTO.Login_Pass);
 
+            return Customer.CreateNewObjectOfCustomer(customerDTO.FirstName, customerDTO.LastName, address, customerDTO.Login_Email, sec);
         }
     }
 }

@@ -23,7 +23,6 @@ namespace Order_V2.Services.Users
             _OrderDBContext = orderDBContext;
         }
 
-
         public async Task<User> GetSingleUserAsync(Guid givenUser_ID)
         {
             var User = await _OrderDBContext.Set<User>().SingleOrDefaultAsync(x => x.User_ID == givenUser_ID);
@@ -80,71 +79,59 @@ namespace Order_V2.Services.Users
         }
 
 
-        public Customer RegisterNewCustomer(Customer_InternalDTO internalDTO)
+        public Customer RegisterNewCustomer(Customer newCustomer)
         {
-            if (string.IsNullOrWhiteSpace(internalDTO.FirstName) ||
-                string.IsNullOrWhiteSpace(internalDTO.LastName) ||
-                string.IsNullOrWhiteSpace(internalDTO.Login_Email) ||
-                string.IsNullOrWhiteSpace(internalDTO.StreetName) ||
-                string.IsNullOrWhiteSpace(internalDTO.StreetNumber) ||
-                string.IsNullOrWhiteSpace(internalDTO.CountryName) ||
-                string.IsNullOrWhiteSpace(internalDTO.CityName) ||
-                internalDTO.City_ZIP <= 0 ||
-                internalDTO.ListOfPhones.Count == 0)
+            if (string.IsNullOrWhiteSpace(newCustomer.FirstName) ||
+                string.IsNullOrWhiteSpace(newCustomer.LastName) ||
+                string.IsNullOrWhiteSpace(newCustomer.Login_Email) ||
+                string.IsNullOrWhiteSpace(newCustomer.Address.StreetName) ||
+                string.IsNullOrWhiteSpace(newCustomer.Address.StreetNumber) ||
+                string.IsNullOrWhiteSpace(newCustomer.Address.City.CountryName) ||
+                string.IsNullOrWhiteSpace(newCustomer.Address.City.CityName) ||
+                newCustomer.Address.City.City_ZIP <= 0 )
             { throw new UserEcxeption(typeof(Customer), "All fields are required"); }
 
-            if (CheckEmailDuplicate(internalDTO.Login_Email))
+            if (CheckEmailDuplicate(newCustomer.Login_Email))
             { throw new UserEcxeption(typeof(Customer), "The email already excists"); }
 
-            City cityFromDB = CheckCityInDB(internalDTO.City_ZIP, internalDTO.CityName, internalDTO.CountryName);
-            Address newAddress = Address.CreateNewObjectOfAddress(internalDTO.StreetName, internalDTO.StreetNumber, cityFromDB);
-            Customer newMember = Customer.CreateNewObjectOfCustomer(internalDTO.FirstName, internalDTO.LastName, newAddress, internalDTO.Login_Email, internalDTO.UserSecurity);
+            City cityFromDB = CheckCityInDB(newCustomer.Address.City.City_ZIP, newCustomer.Address.City.CityName, newCustomer.Address.City.CountryName);
+            Address newAddress = Address.CreateNewObjectOfAddress(newCustomer.Address.StreetName, newCustomer.Address.StreetNumber, cityFromDB);
+            Customer newMember = Customer.CreateNewObjectOfCustomer(newCustomer.FirstName, newCustomer.LastName, newAddress, newCustomer.Login_Email, newCustomer.UserSecurity);
 
             _OrderDBContext.Customers.Add(newMember);
             _OrderDBContext.SaveChanges();
 
             return newMember;
         }
-        public Administrator RegisterNewAdministrator(Administrator_InternalDTO internalDTO)
+        public Administrator RegisterNewAdministrator(Administrator internalDTO)
         {
-            if (string.IsNullOrWhiteSpace(internalDTO.FirstName) ||
-              string.IsNullOrWhiteSpace(internalDTO.LastName) ||
-              string.IsNullOrWhiteSpace(internalDTO.Login_Email) ||
-              string.IsNullOrWhiteSpace(internalDTO.Workplace_StreetName) ||
-              string.IsNullOrWhiteSpace(internalDTO.Workplace_StreetNumber) ||
-              string.IsNullOrWhiteSpace(internalDTO.Workplace_OfficeName) ||
-                string.IsNullOrWhiteSpace(internalDTO.Workplace_CountryName) ||
-                string.IsNullOrWhiteSpace(internalDTO.Workplace_CityName) ||
-              internalDTO.Workplace_City_ZIP <= 0 ||
-              internalDTO.ListOfPhones.Count == 0)
-            { throw new UserEcxeption(typeof(Customer), "All fields are required"); }
+            //if (string.IsNullOrWhiteSpace(internalDTO.FirstName) ||
+            //  string.IsNullOrWhiteSpace(internalDTO.LastName) ||
+            //  string.IsNullOrWhiteSpace(internalDTO.Login_Email) ||
+            //  string.IsNullOrWhiteSpace(internalDTO.Workplace_StreetName) ||
+            //  string.IsNullOrWhiteSpace(internalDTO.Workplace_StreetNumber) ||
+            //  string.IsNullOrWhiteSpace(internalDTO.Workplace_OfficeName) ||
+            //    string.IsNullOrWhiteSpace(internalDTO.Workplace_CountryName) ||
+            //    string.IsNullOrWhiteSpace(internalDTO.Workplace_CityName) ||
+            //  internalDTO.Workplace_City_ZIP <= 0 ||
+            //  internalDTO.ListOfPhones.Count == 0)
+            //{ throw new UserEcxeption(typeof(Customer), "All fields are required"); }
 
-            if (CheckEmailDuplicate(internalDTO.Login_Email))
-            { throw new UserEcxeption(typeof(Customer), "The email already excists"); }
+            //if (CheckEmailDuplicate(internalDTO.Login_Email))
+            //{ throw new UserEcxeption(typeof(Customer), "The email already excists"); }
 
-            City cityFromDB = CheckCityInDB(internalDTO.Workplace_City_ZIP, internalDTO.Workplace_CityName, internalDTO.Workplace_CountryName);
-            Address newAddress = Address.CreateNewObjectOfAddress(internalDTO.Workplace_StreetName, internalDTO.Workplace_StreetNumber, cityFromDB);
-            Workplace workplace = Workplace.CreateNewObjectOfWorkplace(internalDTO.Workplace_OfficeName, newAddress);
+            //City cityFromDB = CheckCityInDB(internalDTO.Workplace_City_ZIP, internalDTO.Workplace_CityName, internalDTO.Workplace_CountryName);
+            //Address newAddress = Address.CreateNewObjectOfAddress(internalDTO.Workplace_StreetName, internalDTO.Workplace_StreetNumber, cityFromDB);
+            //Workplace workplace = Workplace.CreateNewObjectOfWorkplace(internalDTO.Workplace_OfficeName, newAddress);
 
-            Administrator newMember = Administrator.CreateNewObjectOfAdministrator(internalDTO.FirstName, internalDTO.LastName, workplace, internalDTO.Login_Email, internalDTO.UserSecurity);
+            //Administrator newMember = Administrator.CreateNewObjectOfAdministrator(internalDTO.FirstName, internalDTO.LastName, workplace, internalDTO.Login_Email, internalDTO.UserSecurity);
 
-            _OrderDBContext.Administrators.Add(newMember);
-            _OrderDBContext.SaveChanges();
+            //_OrderDBContext.Administrators.Add(newMember);
+            //_OrderDBContext.SaveChanges();
 
-            return newMember;
-        }
-
-
-        public void AddPhoneNumbersToUserID(List<String> phoneNumbers, Guid givenUser_ID)
-        {
-            List<PhoneNumber> PphoneNumberListOfUser = new List<PhoneNumber>();
-            foreach (var item in phoneNumbers)
-            { PphoneNumberListOfUser.Add(PhoneNumber.CreateNewObjectOfPhoneNumber(givenUser_ID, item)); }
-
-            _OrderDBContext.AddRangeAsync(PphoneNumberListOfUser);
-            _OrderDBContext.SaveChanges();
-        }
-        
+            //return newMember;
+            throw new NotImplementedException();
+        }      
 
         private City CheckCityInDB(int city_ZIP, string cityName, string countryName)
         {
@@ -157,6 +144,17 @@ namespace Order_V2.Services.Users
         {
             return _OrderDBContext.Users.Any(user => user.Login_Email == givenEmail);
         }
+
+
+
+        public List<PhoneNumber> AddPhoneNumbersToUserID(List<String> phoneNumbers, Guid givenUser_ID)
+        {          
+            List<PhoneNumber> PhoneNumberListOfUser = new List<PhoneNumber>();
+            foreach (var item in phoneNumbers)
+            { PhoneNumberListOfUser.Add(PhoneNumber.CreateNewObjectOfPhoneNumber(givenUser_ID, item)); }
+            return PhoneNumberListOfUser;
+        }
+
 
 
 
