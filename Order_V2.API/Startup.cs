@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Order_V2.API.Controllers.Users.Mapper;
 using Order_V2.API.Controllers.Users.Mapper.Interfaces;
 using Order_V2.Data;
@@ -16,6 +18,8 @@ using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Order_V2.API
@@ -58,9 +62,32 @@ namespace Order_V2.API
             services.AddSingleton<ILoginMapper, LoginMapper>();
 
             services.AddSingleton<Hasher>().AddSingleton<Salter>().AddSingleton<UserAuthenticationServices>();
-            //services.AddCors();
-            //var key = Encoding.ASCII.GetBytes(UserAuthenticationService.SECRET_KEY);
+            services.AddCors();
+            var key = Encoding.ASCII.GetBytes(UserAuthenticationServices.SECRET_KEY);
 
+            services
+                .AddAuthorization(options => {
+                    options.AddPolicy("AdminOnly", policy => policy.RequireClaim(ClaimTypes.Email, "admin@admin.com"));
+
+                    // kan ik ook een claim leggen op de Discriminator ???
+                })
+                .AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.SaveToken = true;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,6 +102,16 @@ namespace Order_V2.API
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
+
+            app.UseCors(x => x
+              .AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials());
+
+            app.UseAuthentication();
+
+
             app.UseMvc();
             app.Run(async context =>
             {

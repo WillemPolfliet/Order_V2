@@ -23,6 +23,6 @@ namespace Order_V2.Services.Users.Interfaces
 
          Task<User> GetSingleUserAsync(Guid givenUser_ID);
 
-        //LoginUserInformation FindByLoginEmail(string providedEmail);
+        LoginInformation FindByLoginEmail(string providedEmail);
     }
 }

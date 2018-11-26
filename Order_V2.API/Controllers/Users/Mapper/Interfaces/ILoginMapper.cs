@@ -9,8 +9,8 @@ namespace Order_V2.API.Controllers.Users.Mapper.Interfaces
 {
     public interface ILoginMapper
     {
-        //LoginUserInformation DTOToLoginUserInfo(LoginRequestDTO loginRequestDTO);
-        //LoginRequestDTO LoginInfoToDTO(LoginUserInformation loginRequestDTO);
+        //LoginInformation DTOToLoginUserInfo(LoginRequestDTO loginRequestDTO);
+        //LoginRequestDTO LoginInfoToDTO(LoginInformation loginRequestDTO);
         UserSecurity CreateUserSecurity(string login_Pass);
     }
 }

@@ -161,19 +161,18 @@ namespace Order_V2.Services.Users
 
 
 
-        //public LoginUserInformation FindByLoginEmail(string providedEmail)
-        //{
-        //    var LoginID = _OrderDBContext.Users.SingleOrDefault(customer => customer.Login_Email == providedEmail);
-        //    if (LoginID == null)
-        //    { return null; }
+        public LoginInformation FindByLoginEmail(string providedEmail)
+        {
+            var LoginID = _OrderDBContext.Users.SingleOrDefault(customer => customer.Login_Email == providedEmail);
+            if (LoginID == null)
+            { return null; }
 
-        //    var mail = LoginID.Login_Email;
-        //    var pass = LoginID.Login_HashPass;
-        //    var salt = LoginID.Salt;
+            var mail = LoginID.Login_Email;
+            var security = LoginID.UserSecurity;
 
-        //    LoginUserInformation Login = new LoginUserInformation(mail, new UserSecurity(pass, salt));
-        //    return Login;
-        //}
+            var Login = new LoginInformation(mail, security);
+            return Login;
+        }
 
 
 

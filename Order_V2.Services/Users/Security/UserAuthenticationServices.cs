@@ -24,16 +24,16 @@ namespace Order_V2.Services.Users.Security
             _salter = salter;
         }
 
-        //public JwtSecurityToken Authenticate(string providedEmail, string providedPassword)
-        //{
-        //    LoginUserInformation foundUser = _userService.FindByLoginEmail(providedEmail);
+        public JwtSecurityToken Authenticate(string providedEmail, string providedPassword)
+        {
+            LoginInformation foundUser = _userService.FindByLoginEmail(providedEmail);
 
-        //    if (IsSuccessfullyAuthenticated(providedEmail, providedPassword, foundUser.UserSecurity))
-        //    {
-        //        return new JwtSecurityTokenHandler().CreateToken(CreateTokenDescription(foundUser)) as JwtSecurityToken;
-        //    }
-        //    return null;
-        //}
+            if (IsSuccessfullyAuthenticated(providedEmail, providedPassword, foundUser.UserSecurity))
+            {
+                return new JwtSecurityTokenHandler().CreateToken(CreateTokenDescription(foundUser)) as JwtSecurityToken;
+            }
+            return null;
+        }
 
         public UserSecurity CreateUserSecurity(string userPassword)
         {
@@ -43,22 +43,22 @@ namespace Order_V2.Services.Users.Security
                 saltToBeUsed);
         }
 
-        //private SecurityTokenDescriptor CreateTokenDescription(LoginUserInformation foundUser)
-        //{
-        //    var key = Encoding.ASCII.GetBytes(SECRET_KEY);
-        //    SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
-        //    {
-        //        Subject = new ClaimsIdentity(new Claim[]
-        //            { new Claim(ClaimTypes.Email, foundUser.Email) }),
-        //        Expires = DateTime.UtcNow.AddHours(1),
-        //        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-        //    };
-        //    return tokenDescriptor;
-        //}
+        private SecurityTokenDescriptor CreateTokenDescription(LoginInformation foundUser)
+        {
+            var key = Encoding.ASCII.GetBytes(SECRET_KEY);
+            SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                    { new Claim(ClaimTypes.Email, foundUser.Email) }),
+                Expires = DateTime.UtcNow.AddHours(1),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            return tokenDescriptor;
+        }
 
-        //private bool IsSuccessfullyAuthenticated(string providedEmail, string providedPassword, UserSecurity persistedUserSecurity)
-        //{
-        //    return _hasher.DoesProvidedPasswordMatchPersistedPassword(providedPassword, persistedUserSecurity);
-        //}
+        private bool IsSuccessfullyAuthenticated(string providedEmail, string providedPassword, UserSecurity persistedUserSecurity)
+        {
+            return _hasher.DoesProvidedPasswordMatchPersistedPassword(providedPassword, persistedUserSecurity);
+        }
     }
 }

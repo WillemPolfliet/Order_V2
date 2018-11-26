@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Order_V2.API.Controllers.Users.CustomerDTOs.DTO;
@@ -30,10 +31,10 @@ namespace Order_V2.API.Controllers.Users.Controller
             _userMapper = userMapper;
             _administratorMapper = administratorMapper;
         }
-                             
 
         [HttpGet]
         [Route("GetAllUsers")]
+        [Authorize(Policy = "AdminOnly")]
         public ActionResult<List<UserDTO_Return>> GetAllUsers()
         {
             try
@@ -48,8 +49,11 @@ namespace Order_V2.API.Controllers.Users.Controller
                 return BadRequest(ex.Message);
             }
         }
+
+
         [HttpGet]
         [Route("GetAllAdministrators")]
+        [Authorize(Policy = "AdminOnly")]    
         public ActionResult<List<AdministratorDTO_Return>> GetAllAdmins()
         {
             try
@@ -64,8 +68,10 @@ namespace Order_V2.API.Controllers.Users.Controller
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpGet]
         [Route("GetAllCustomers")]
+        [AllowAnonymous]
         public ActionResult<List<CustomerDTO_Return>> GetAllCustomers()
         {
             try
@@ -84,6 +90,7 @@ namespace Order_V2.API.Controllers.Users.Controller
 
         [HttpGet]
         [Route("{UserID}")]
+        [AllowAnonymous]
         public async Task<ActionResult<UserDTO_Return>> GetSingleUserAsync([FromRoute] Guid UserID)
         {
             try
@@ -104,28 +111,28 @@ namespace Order_V2.API.Controllers.Users.Controller
         }
 
 
-        [HttpPost]
-        [Route("CreateNewCustomer")]
-        public ActionResult<CustomerDTO_Return> RegisterNewCustomerAsync(CustomerDTO_Create CustomerDTO)
-        {
-            try
-            {
-                var internalDTO = _customerMapper.DTOToCustomer_InternalDTO(CustomerDTO);
+        //[HttpPost]
+        //[Route("CreateNewCustomer")]
+        //public ActionResult<CustomerDTO_Return> RegisterNewCustomerAsync(CustomerDTO_Create CustomerDTO)
+        //{
+        //    try
+        //    {
+        //        var internalDTO = _customerMapper.DTOToCustomer_InternalDTO(CustomerDTO);
 
-                var registerdCustomer = _userServices.RegisterNewCustomer(internalDTO);
+        //        var registerdCustomer = _userServices.RegisterNewCustomer(internalDTO);
 
-                //_userServices.AddPhoneNumbersToUserIDAsync(CustomerDTO.ListOfPhones, internalDTO.User_ID);
+        //        //_userServices.AddPhoneNumbersToUserIDAsync(CustomerDTO.ListOfPhones, internalDTO.User_ID);
 
-                return Ok(_customerMapper.CustomerToDTOReturn(registerdCustomer));
+        //        return Ok(_customerMapper.CustomerToDTOReturn(registerdCustomer));
 
-            }
-            //catch (UserException ex)
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+        //    }
+        //    //catch (UserException ex)
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
             
-        }
+        //}
         //[HttpPost]
         //[Route("CreateNewAdmin")]
         //public ActionResult RegisterNewAdmin(AdministratorDTO_Create AdminDTO)
