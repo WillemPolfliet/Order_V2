@@ -20,7 +20,7 @@ namespace Order_V2.API.Controllers.Users.Mapper
 
         public UserSecurity CreateUserSecurity(string login_Pass)
         {
-            return new UserSecurity(login_Pass, "salt");
+            return _userAuthService.CreateUserSecurity(login_Pass);
         }
 
 

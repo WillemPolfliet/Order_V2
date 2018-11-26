@@ -28,7 +28,8 @@ namespace Order_V2.Domain.Users.Customers
             catch (FormatException ex)
             { throw new UserEcxeption(typeof(Customer), ex.Message); }           
 
-            var discriminator = typeof(Customer).ToString();
+            var discriminatorArray = typeof(Customer).ToString().Split('.');
+            var discriminator = discriminatorArray[discriminatorArray.Length - 1];
             return new Customer(discriminator, firstName, lastName, address, login_Email,  userSecurity);
         }
     }

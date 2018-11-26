@@ -98,13 +98,13 @@ namespace Order_V2.Services.Users
             Address newAddress = Address.CreateNewObjectOfAddress(newCustomer.Address.StreetName, newCustomer.Address.StreetNumber, cityFromDB);
             Customer newMember = Customer.CreateNewObjectOfCustomer(newCustomer.FirstName, newCustomer.LastName, newAddress, newCustomer.Login_Email, newCustomer.UserSecurity);
 
-            _OrderDBContext.Customers.Add(newMember);
+            _OrderDBContext.Set<Customer>().Add(newMember);
             _OrderDBContext.SaveChanges();
 
             return newMember;
         }
-        public Administrator RegisterNewAdministrator(Administrator internalDTO)
-        {
+        //public Administrator RegisterNewAdministrator(Administrator internalDTO)
+        //{
             //if (string.IsNullOrWhiteSpace(internalDTO.FirstName) ||
             //  string.IsNullOrWhiteSpace(internalDTO.LastName) ||
             //  string.IsNullOrWhiteSpace(internalDTO.Login_Email) ||
@@ -130,8 +130,8 @@ namespace Order_V2.Services.Users
             //_OrderDBContext.SaveChanges();
 
             //return newMember;
-            throw new NotImplementedException();
-        }      
+         
+        //}      
 
         private City CheckCityInDB(int city_ZIP, string cityName, string countryName)
         {
@@ -152,8 +152,8 @@ namespace Order_V2.Services.Users
             List<PhoneNumber> PhoneNumberListOfUser = new List<PhoneNumber>();
             foreach (var item in phoneNumbers)
             { PhoneNumberListOfUser.Add(PhoneNumber.CreateNewObjectOfPhoneNumber(givenUser_ID, item)); }
-
-             //_OrderDBContext.AddRangeAsync(PhoneNumberListOfUser);
+            
+            //_OrderDBContext.AddRangeAsync(PhoneNumberListOfUser);
              //_OrderDBContext.SaveChangesAsync();
             
         }

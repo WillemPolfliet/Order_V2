@@ -112,11 +112,11 @@ namespace Order_V2.API.Controllers.Users.Controller
             {
                 var internalDTO = _customerMapper.DTOToCustomer_InternalDTO(CustomerDTO);
 
-                _userServices.RegisterNewCustomer(internalDTO);
+                var registerdCustomer = _userServices.RegisterNewCustomer(internalDTO);
 
-                _userServices.AddPhoneNumbersToUserIDAsync(CustomerDTO.ListOfPhones, internalDTO.User_ID);
+                //_userServices.AddPhoneNumbersToUserIDAsync(CustomerDTO.ListOfPhones, internalDTO.User_ID);
 
-                Ok(_customerMapper.CustomerToDTOReturn(internalDTO));
+                return Ok(_customerMapper.CustomerToDTOReturn(registerdCustomer));
 
             }
             //catch (UserException ex)
@@ -124,29 +124,28 @@ namespace Order_V2.API.Controllers.Users.Controller
             {
                 return BadRequest(ex.Message);
             }
-
-            return Ok();
+            
         }
-        [HttpPost]
-        [Route("CreateNewAdmin")]
-        public ActionResult RegisterNewAdmin(AdministratorDTO_Create AdminDTO)
-        {
-            //try
-            //{
-            //    var internalDTO = _administratorMapper.DTOToInternalDTO(AdminDTO);
-            //    _userServices.AddPhoneNumbersToUserID(internalDTO.ListOfPhones, tempAdmin.User_ID);
+        //[HttpPost]
+        //[Route("CreateNewAdmin")]
+        //public ActionResult RegisterNewAdmin(AdministratorDTO_Create AdminDTO)
+        //{
+        //    //try
+        //    //{
+        //    //    var internalDTO = _administratorMapper.DTOToInternalDTO(AdminDTO);
+        //    //    _userServices.AddPhoneNumbersToUserID(internalDTO.ListOfPhones, tempAdmin.User_ID);
 
-            //    var tempAdmin = _userServices.RegisterNewAdministrator(internalDTO);
+        //    //    var tempAdmin = _userServices.RegisterNewAdministrator(internalDTO);
 
-            //}
-            ////catch (UserException ex)
-            //catch (Exception ex)
-            //{
+        //    //}
+        //    ////catch (UserException ex)
+        //    //catch (Exception ex)
+        //    //{
 
-            //    return BadRequest(ex.Message);
-            //}
+        //    //    return BadRequest(ex.Message);
+        //    //}
 
-            return Ok();
-        }
+        //    return Ok();
+        //}
     }
 }

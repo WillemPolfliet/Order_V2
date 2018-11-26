@@ -17,7 +17,7 @@ namespace Order_V2.Services.Users.Interfaces
         List<Customer> GetAllCustomers();
 
         Customer RegisterNewCustomer(Customer internalDTO);
-        Administrator RegisterNewAdministrator(Administrator internalDTO);
+        // Administrator RegisterNewAdministrator(Administrator internalDTO);
 
         void AddPhoneNumbersToUserIDAsync(List<String> phoneNumbers, Guid givenUser_ID);
 
