@@ -147,12 +147,15 @@ namespace Order_V2.Services.Users
 
 
 
-        public List<PhoneNumber> AddPhoneNumbersToUserID(List<String> phoneNumbers, Guid givenUser_ID)
+        public void AddPhoneNumbersToUserIDAsync(List<String> phoneNumbers, Guid givenUser_ID)
         {          
             List<PhoneNumber> PhoneNumberListOfUser = new List<PhoneNumber>();
             foreach (var item in phoneNumbers)
             { PhoneNumberListOfUser.Add(PhoneNumber.CreateNewObjectOfPhoneNumber(givenUser_ID, item)); }
-            return PhoneNumberListOfUser;
+
+             //_OrderDBContext.AddRangeAsync(PhoneNumberListOfUser);
+             //_OrderDBContext.SaveChangesAsync();
+            
         }
 
 

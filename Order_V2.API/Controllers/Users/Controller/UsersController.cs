@@ -106,7 +106,7 @@ namespace Order_V2.API.Controllers.Users.Controller
 
         [HttpPost]
         [Route("CreateNewCustomer")]
-        public ActionResult RegisterNewCustomer(CustomerDTO_Create CustomerDTO)
+        public ActionResult<CustomerDTO_Return> RegisterNewCustomerAsync(CustomerDTO_Create CustomerDTO)
         {
             try
             {
@@ -114,12 +114,14 @@ namespace Order_V2.API.Controllers.Users.Controller
 
                 _userServices.RegisterNewCustomer(internalDTO);
 
-               _userServices.AddPhoneNumbersToUserID(CustomerDTO.ListOfPhones, internalDTO.User_ID);
+                _userServices.AddPhoneNumbersToUserIDAsync(CustomerDTO.ListOfPhones, internalDTO.User_ID);
+
+                Ok(_customerMapper.CustomerToDTOReturn(internalDTO));
+
             }
             //catch (UserException ex)
             catch (Exception ex)
             {
-
                 return BadRequest(ex.Message);
             }
 

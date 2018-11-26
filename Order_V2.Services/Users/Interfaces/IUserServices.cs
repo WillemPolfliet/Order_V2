@@ -1,5 +1,6 @@
 ﻿using Order_V2.Domain.Users;
 using Order_V2.Domain.Users.Administrators;
+using Order_V2.Domain.Users.Attributes;
 using Order_V2.Domain.Users.Authentication;
 using Order_V2.Domain.Users.Customers;
 using System;
@@ -18,7 +19,7 @@ namespace Order_V2.Services.Users.Interfaces
         Customer RegisterNewCustomer(Customer internalDTO);
         Administrator RegisterNewAdministrator(Administrator internalDTO);
 
-        void AddPhoneNumbersToUserID(List<String> phoneNumbers, Guid givenUser_ID);
+        void AddPhoneNumbersToUserIDAsync(List<String> phoneNumbers, Guid givenUser_ID);
 
          Task<User> GetSingleUserAsync(Guid givenUser_ID);
 
